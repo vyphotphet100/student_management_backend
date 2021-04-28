@@ -1,17 +1,16 @@
 package com.window_programming_api.entity;
 
-import static javax.persistence.TemporalType.TIMESTAMP;
-
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -20,34 +19,38 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "course")
+@Table(name = "section_class")
 @EntityListeners(AuditingEntityListener.class)
-public class CourseEntity{
+public class SectionClassEntity {
 	
 	@Id
-	private String courseId;
+	private String sectionClassId;
 	
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "period")
-	private Integer period;
+	@Column(name = "start_time")
+	@Temporal(TemporalType.TIME)
+	private Date startTime;
 	
-	@Column(name = "description")
-	private String description;
+	@Column(name = "end_time")
+	@Temporal(TemporalType.TIME)
+	private Date endTime;
 	
-	@Column(name = "number_of_creadit")
-	private Integer numberOfCredit;
+	@Column(name = "room")
+	private String room;
 	
-	@Column(name = "fee")
-	private Long fee;
+	@ManyToOne 
+    @JoinColumn(name = "course_id")
+    private CourseEntity course;
 	
-	@OneToMany(mappedBy = "course")
-    private List<SectionClassEntity> sectionClasses;
+	@ManyToOne 
+    @JoinColumn(name = "lecturer_id")
+    private LecturerEntity lecturer;
 	
 	@Column(name = "createddate")
 	@CreatedDate
-	@Temporal(TIMESTAMP)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
 	
 	@Column(name = "createdby")
@@ -56,12 +59,20 @@ public class CourseEntity{
 	
 	@Column(name = "modifieddate")
 	@LastModifiedDate
-	@Temporal(TIMESTAMP)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedDate;
 	
 	@Column(name = "modifiedby")
 	@LastModifiedBy
 	private String modifiedBy;
+
+	public String getSectionClassId() {
+		return sectionClassId;
+	}
+
+	public void setSectionClassId(String sectionClassId) {
+		this.sectionClassId = sectionClassId;
+	}
 
 	public String getName() {
 		return name;
@@ -71,28 +82,44 @@ public class CourseEntity{
 		this.name = name;
 	}
 
-	public Integer getPeriod() {
-		return period;
+	public Date getStartTime() {
+		return startTime;
 	}
 
-	public void setPeriod(Integer period) {
-		this.period = period;
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
 	}
 
-	public String getDescription() {
-		return description;
+	public Date getEndTime() {
+		return endTime;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 
-	public String getCourseId() {
-		return courseId;
+	public String getRoom() {
+		return room;
 	}
 
-	public void setCourseId(String courseId) {
-		this.courseId = courseId;
+	public void setRoom(String room) {
+		this.room = room;
+	}
+
+	public CourseEntity getCourse() {
+		return course;
+	}
+
+	public void setCourse(CourseEntity course) {
+		this.course = course;
+	}
+
+	public LecturerEntity getLecturer() {
+		return lecturer;
+	}
+
+	public void setLecturer(LecturerEntity lecturer) {
+		this.lecturer = lecturer;
 	}
 
 	public Date getCreatedDate() {
@@ -126,29 +153,7 @@ public class CourseEntity{
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-
-	public Integer getNumberOfCredit() {
-		return numberOfCredit;
-	}
-
-	public void setNumberOfCredit(Integer numberOfCredit) {
-		this.numberOfCredit = numberOfCredit;
-	}
-
-	public Long getFee() {
-		return fee;
-	}
-
-	public void setFee(Long fee) {
-		this.fee = fee;
-	}
-
-	public List<SectionClassEntity> getSectionClasses() {
-		return sectionClasses;
-	}
-
-	public void setSectionClasses(List<SectionClassEntity> sectionClasses) {
-		this.sectionClasses = sectionClasses;
-	}
+	
+	
 
 }
