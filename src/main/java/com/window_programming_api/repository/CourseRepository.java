@@ -6,7 +6,7 @@ import com.window_programming_api.entity.CourseEntity;
 
 public interface CourseRepository extends JpaRepository<CourseEntity, String>{
 	
-	CourseEntity findAllByLabel(String label);
+	CourseEntity findAllByName(String name);
 	CourseEntity findOneByCourseId(String courseId);
 
 }

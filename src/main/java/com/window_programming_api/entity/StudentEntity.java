@@ -3,11 +3,13 @@ package com.window_programming_api.entity;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -23,7 +25,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class StudentEntity {
 
 	@Id
-	private String studentId;
+	private String id;
 	
 	@Column(name = "first_name", columnDefinition = "TEXT")
 	private String firstName;
@@ -58,6 +60,9 @@ public class StudentEntity {
 	@Column(name = "picture", columnDefinition = "LONGTEXT")
 	private String picture;
 	
+	@OneToMany(mappedBy = "student")
+    private List<RegisterEntity> registers;
+	
 	@Column(name = "createddate")
 	@CreatedDate
 	@Temporal(TIMESTAMP)
@@ -77,12 +82,12 @@ public class StudentEntity {
 	private String modifiedBy;
 	
 
-	public String getStudentId() {
-		return studentId;
+	public String getId() {
+		return id;
 	}
 
-	public void setStudentId(String studentId) {
-		this.studentId = studentId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -204,4 +209,14 @@ public class StudentEntity {
 	public void setStartYear(Integer startYear) {
 		this.startYear = startYear;
 	}
+
+	public List<RegisterEntity> getRegisters() {
+		return registers;
+	}
+
+	public void setRegisters(List<RegisterEntity> registers) {
+		this.registers = registers;
+	}
+	
+	
 }

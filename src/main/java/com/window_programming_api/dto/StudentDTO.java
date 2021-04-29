@@ -1,6 +1,5 @@
 package com.window_programming_api.dto;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,13 +8,16 @@ public class StudentDTO extends AbstractDTO<StudentDTO>{
 	private String studentId;
 	private String firstName;
 	private String lastName;
+	private String fullname;
+	private String username;
+	private String password;
 	private Date birthday;
+	private Integer startYear;
 	private String gender;
-	private String phone;
+	private String phoneNumber;
 	private String address;
 	private String picture;
-	private List<Long> scoreIds = new ArrayList<Long>();
-	
+    private List<Long> registerIds;
 	public String getStudentId() {
 		return studentId;
 	}
@@ -34,11 +36,35 @@ public class StudentDTO extends AbstractDTO<StudentDTO>{
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	public String getFullname() {
+		return fullname;
+	}
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public Date getBirthday() {
 		return birthday;
 	}
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
+	}
+	public Integer getStartYear() {
+		return startYear;
+	}
+	public void setStartYear(Integer startYear) {
+		this.startYear = startYear;
 	}
 	public String getGender() {
 		return gender;
@@ -46,11 +72,11 @@ public class StudentDTO extends AbstractDTO<StudentDTO>{
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public String getPhone() {
-		return phone;
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 	public String getAddress() {
 		return address;
@@ -64,11 +90,11 @@ public class StudentDTO extends AbstractDTO<StudentDTO>{
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
-	public List<Long> getScoreIds() {
-		return scoreIds;
+	public List<Long> getRegisterIds() {
+		return registerIds;
 	}
-	public void setScoreIds(List<Long> scoreIds) {
-		this.scoreIds = scoreIds;
+	public void setRegisterIds(List<Long> registerIds) {
+		this.registerIds = registerIds;
 	}
-
+    
 }

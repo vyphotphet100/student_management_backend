@@ -1,6 +1,7 @@
 package com.window_programming_api.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,7 +26,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class SectionClassEntity {
 	
 	@Id
-	private String sectionClassId;
+	private String id;
 	
 	@Column(name = "name")
 	private String name;
@@ -48,6 +50,9 @@ public class SectionClassEntity {
     @JoinColumn(name = "lecturer_id")
     private LecturerEntity lecturer;
 	
+	@OneToMany(mappedBy = "sectionClass")
+    private List<RegisterEntity> registers;
+	
 	@Column(name = "createddate")
 	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
@@ -66,12 +71,13 @@ public class SectionClassEntity {
 	@LastModifiedBy
 	private String modifiedBy;
 
-	public String getSectionClassId() {
-		return sectionClassId;
+	
+	public String getId() {
+		return id;
 	}
 
-	public void setSectionClassId(String sectionClassId) {
-		this.sectionClassId = sectionClassId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -153,7 +159,12 @@ public class SectionClassEntity {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-	
-	
 
+	public List<RegisterEntity> getRegisters() {
+		return registers;
+	}
+
+	public void setRegisters(List<RegisterEntity> registers) {
+		this.registers = registers;
+	}
 }

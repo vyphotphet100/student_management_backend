@@ -112,7 +112,7 @@ public class CourseFileService extends BaseFileService implements ICourseFileSer
 				// create row after
 				tableRow = table.createRow();
 				POIUtil.addParagraphToTableCell(tableRow.getCell(0), 14, courseEntities.get(i).getCourseId(), false);
-				POIUtil.addParagraphToTableCell(tableRow.getCell(1), 14, courseEntities.get(i).getLabel(), false);
+				POIUtil.addParagraphToTableCell(tableRow.getCell(1), 14, courseEntities.get(i).getName(), false);
 				POIUtil.addParagraphToTableCell(tableRow.getCell(2), 14, courseEntities.get(i).getPeriod().toString(),
 						false);
 				POIUtil.addParagraphToTableCell(tableRow.getCell(3), 14, courseEntities.get(i).getDescription(), false);

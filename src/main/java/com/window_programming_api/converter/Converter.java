@@ -11,19 +11,26 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.window_programming_api.dto.CourseDTO;
+import com.window_programming_api.dto.LecturerDTO;
 import com.window_programming_api.dto.MyUser;
+import com.window_programming_api.dto.RegisterDTO;
 import com.window_programming_api.dto.RoleDTO;
+import com.window_programming_api.dto.SectionClassDTO;
 import com.window_programming_api.dto.StudentDTO;
 import com.window_programming_api.dto.TokenDTO;
 import com.window_programming_api.dto.UserDTO;
 import com.window_programming_api.entity.CourseEntity;
+import com.window_programming_api.entity.LecturerEntity;
+import com.window_programming_api.entity.RegisterEntity;
 import com.window_programming_api.entity.RoleEntity;
-import com.window_programming_api.entity.ScoreEntity;
+import com.window_programming_api.entity.SectionClassEntity;
 import com.window_programming_api.entity.StudentEntity;
 import com.window_programming_api.entity.TokenEntity;
 import com.window_programming_api.entity.UserEntity;
+import com.window_programming_api.repository.RegisterRepository;
 import com.window_programming_api.repository.RoleRepository;
-import com.window_programming_api.repository.ScoreRepository;
+import com.window_programming_api.repository.SectionClassRepository;
+import com.window_programming_api.repository.StudentRepository;
 import com.window_programming_api.repository.TokenRepository;
 import com.window_programming_api.repository.UserRepository;
 
@@ -40,7 +47,13 @@ public class Converter {
 	private RoleRepository roleRepo;
 
 	@Autowired
-	private ScoreRepository scoreRepo;
+	private SectionClassRepository sectionClassRepo;
+
+	@Autowired
+	private StudentRepository studentRepo;
+
+	@Autowired
+	private RegisterRepository registerRepo;
 
 	@SuppressWarnings("unchecked")
 	public <T> T toDTO(Object entity, Class<T> tClass) {
@@ -94,28 +107,60 @@ public class Converter {
 			CourseDTO courseDto = (CourseDTO) resObj;
 			CourseEntity courseEntity = (CourseEntity) entity;
 
-			// set scores
-			if (courseEntity.getScores() != null) {
-				List<Long> scores = new ArrayList<Long>();
-				for (int i = 0; i < courseEntity.getScores().size(); i++)
-					scores.add(courseEntity.getScores().get(i).getId());
-				courseDto.setScoreIds(scores);
+			// set section class id
+			if (courseEntity.getSectionClasses() != null) {
+				for (int i = 0; i < courseEntity.getSectionClasses().size(); i++)
+					courseDto.getSectionClassIds().add(courseEntity.getSectionClasses().get(i).getId());
 			}
 
 			return (T) courseDto;
+		} else if (resObj instanceof LecturerDTO) {
+			LecturerDTO lecturerDto = (LecturerDTO) resObj;
+			LecturerEntity lecturerEntity = (LecturerEntity) entity;
+
+			// set section class id
+			if (lecturerEntity.getSectionClasses() != null) {
+				for (int i = 0; i < lecturerEntity.getSectionClasses().size(); i++)
+					lecturerDto.getSectionClassIds().add(lecturerEntity.getSectionClasses().get(i).getId());
+			}
+
+			return (T) lecturerDto;
+		} else if (resObj instanceof RegisterDTO) {
+			RegisterDTO registerDto = (RegisterDTO) resObj;
+			RegisterEntity registerEntity = (RegisterEntity) entity;
+
+			// set student id
+			registerDto.setStudentId(registerEntity.getStudent().getId());
+			// set sectionClassId
+			registerDto.setSectionClassId(registerEntity.getSectionClass().getId());
+
+			return (T) registerEntity;
 		} else if (resObj instanceof StudentDTO) {
 			StudentDTO studentDto = (StudentDTO) resObj;
 			StudentEntity studentEntity = (StudentEntity) entity;
 
-			// set scores
-			if (studentEntity.getScores() != null) {
-				List<Long> scores = new ArrayList<Long>();
-				for (int i = 0; i < studentEntity.getScores().size(); i++)
-					scores.add(studentEntity.getScores().get(i).getId());
-				studentDto.setScoreIds(scores);
+			// set id
+			studentDto.setStudentId(studentEntity.getId());
+			// set registerIds
+			if (studentEntity.getRegisters() != null) {
+				for (int i = 0; i < studentEntity.getRegisters().size(); i++)
+					studentDto.getRegisterIds().add(studentEntity.getRegisters().get(i).getId());
 			}
 
 			return (T) studentDto;
+		} else if (resObj instanceof SectionClassDTO) {
+			SectionClassDTO sectionClassDto = (SectionClassDTO) resObj;
+			SectionClassEntity sectionClassEntity = (SectionClassEntity) entity;
+
+			// set id
+			sectionClassDto.setSectionClassId(sectionClassEntity.getId());
+			// set registerIds
+			if (sectionClassEntity.getRegisters() != null) {
+				for (int i = 0; i < sectionClassEntity.getRegisters().size(); i++)
+					sectionClassDto.getRegisterIds().add(sectionClassEntity.getRegisters().get(i).getId());
+			}
+
+			return (T) sectionClassDto;
 		}
 
 		return resObj;
@@ -160,27 +205,62 @@ public class Converter {
 			CourseDTO courseDto = (CourseDTO) dto;
 
 			// set roles
-			if (courseDto.getScoreIds() != null) {
-				List<ScoreEntity> scoreEntities = new ArrayList<ScoreEntity>();
-				for (int i = 0; i < courseDto.getScoreIds().size(); i++)
-					scoreEntities.add(scoreRepo.findOne(courseDto.getScoreIds().get(i)));
-				courseEntity.setScores(scoreEntities);
+			if (courseDto.getSectionClassIds() != null) {
+				for (int i = 0; i < courseDto.getSectionClassIds().size(); i++)
+					courseEntity.getSectionClasses()
+							.add(sectionClassRepo.findOneById(courseDto.getSectionClassIds().get(i)));
 			}
 
 			return (T) courseEntity;
+		} else if (resObj instanceof LecturerEntity) {
+			LecturerEntity lecturerEntity = (LecturerEntity) resObj;
+			LecturerDTO lecturerDto = (LecturerDTO) dto;
+
+			// set roles
+			if (lecturerDto.getSectionClassIds() != null) {
+				for (int i = 0; i < lecturerDto.getSectionClassIds().size(); i++)
+					lecturerEntity.getSectionClasses()
+							.add(sectionClassRepo.findOneById(lecturerDto.getSectionClassIds().get(i)));
+			}
+
+			return (T) lecturerEntity;
+		} else if (resObj instanceof RegisterEntity) {
+			RegisterEntity registerEntity = (RegisterEntity) resObj;
+			RegisterDTO registerDto = (RegisterDTO) dto;
+
+			// set student
+			registerEntity.setStudent(studentRepo.findOne(registerDto.getStudentId()));
+			// set sectionClassId
+			registerEntity.setSectionClass(sectionClassRepo.findOne(registerDto.getSectionClassId()));
+
+			return (T) registerEntity;
 		} else if (resObj instanceof StudentEntity) {
 			StudentEntity studentEntity = (StudentEntity) resObj;
 			StudentDTO studentDto = (StudentDTO) dto;
 
+			//set id
+			studentEntity.setId(studentDto.getStudentId());
 			// set roles
-			if (studentDto.getScoreIds() != null) {
-				List<ScoreEntity> scoreEntities = new ArrayList<ScoreEntity>();
-				for (int i = 0; i < studentDto.getScoreIds().size(); i++)
-					scoreEntities.add(scoreRepo.findOne(studentDto.getScoreIds().get(i)));
-				studentEntity.setScores(scoreEntities); 
+			if (studentDto.getRegisterIds() != null) {
+				for (int i = 0; i < studentDto.getRegisterIds().size(); i++)
+					studentEntity.getRegisters().add(registerRepo.findOne(studentDto.getRegisterIds().get(i)));
 			}
 
 			return (T) studentEntity;
+		} else if (resObj instanceof SectionClassEntity) {
+			SectionClassEntity sectionClassEntity = (SectionClassEntity) resObj;
+			SectionClassDTO sectionClassDto = (SectionClassDTO) dto;
+
+			// set id
+			sectionClassEntity.setId(sectionClassDto.getSectionClassId());
+			// set registers
+			if (sectionClassDto.getRegisterIds() != null) {
+				for (int i = 0; i < sectionClassDto.getRegisterIds().size(); i++)
+					sectionClassEntity.getRegisters()
+							.add(registerRepo.findOne(sectionClassDto.getRegisterIds().get(i)));
+			}
+
+			return (T) sectionClassEntity;
 		}
 
 		return resObj;
