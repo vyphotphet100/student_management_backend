@@ -25,7 +25,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class CourseEntity{
 	
 	@Id
-	private String courseId;
+	private String id;
 	
 	@Column(name = "name")
 	private String name;
@@ -36,7 +36,7 @@ public class CourseEntity{
 	@Column(name = "description")
 	private String description;
 	
-	@Column(name = "number_of_creadit")
+	@Column(name = "number_of_credit")
 	private Integer numberOfCredit;
 	
 	@Column(name = "fee")
@@ -87,12 +87,12 @@ public class CourseEntity{
 		this.description = description;
 	}
 
-	public String getCourseId() {
-		return courseId;
+	public String getId() {
+		return id;
 	}
 
-	public void setCourseId(String courseId) {
-		this.courseId = courseId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public Date getCreatedDate() {

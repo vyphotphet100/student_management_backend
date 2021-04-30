@@ -5,6 +5,7 @@ import java.util.List;
 
 public class LecturerDTO extends AbstractDTO<LecturerDTO>{
 
+	private Long id;
 	private String username;
 	private String password;
 	private String fullname;
@@ -12,6 +13,15 @@ public class LecturerDTO extends AbstractDTO<LecturerDTO>{
 	private String phoneNumber;
 	private String address;
     private List<String> sectionClassIds;
+    private String roleCode;
+    
+    
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getUsername() {
 		return username;
 	}
@@ -54,6 +64,11 @@ public class LecturerDTO extends AbstractDTO<LecturerDTO>{
 	public void setSectionClassIds(List<String> sectionClassIds) {
 		this.sectionClassIds = sectionClassIds;
 	}
-    
+	public String getRoleCode() {
+		return roleCode;
+	}
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
+	}
     
 }

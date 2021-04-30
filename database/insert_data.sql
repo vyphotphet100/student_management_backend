@@ -9,7 +9,34 @@ INSERT INTO user(username, password, fullname, token_id) VALUES("user1", "654321
 INSERT INTO user_role(userid, roleid) VALUES(1, 1);
 INSERT INTO user_role(userid, roleid) VALUES(2, 1);
 
-INSERT INTO score(course_id, student_id, mid_term_score, end_term_score) VALUES(1234, 19110143, 8.9, 9.0);
+
+
+
+
+INSERT INTO role(code, name) VALUES("ADMIN", "Administrator");
+INSERT INTO role(code, name) VALUES("STUDENT", "Student");
+INSERT INTO role(code, name) VALUES("LECTURER", "Lecturer");
+
+
+INSERT INTO education_training(username, password, address, token_code, role_code) 
+VALUES("admin", "123456", "Hồ Chí Minh", "kjflhaskdfjahsldkfjas", "ADMIN");
+
+INSERT INTO student(username, password, fullname, start_year, id, phone_number, address, token_code, role_code) 
+VALUES("student1", "123456", "Student 1", 2019, "19110143", "0975543975", "Quảng Bình", "uierqyonczmbadsd", "STUDENT");
+INSERT INTO student(username, password, fullname, start_year, id, phone_number, address, token_code, role_code) 
+VALUES("student2", "123456", "Student 2", 2020, "20110143", "0975543976", "Quảng Bình", "eyetyyeruierqyonczdfasdfmbadsd", "STUDENT");
+
+INSERT INTO lecturer(username, password, fullname, id, phone_number, address, token_code, role_code) 
+VALUES("lecturer1", "123456", "Lecturer 1", 1, "0875543975", "Hồ Chí Minh", "zsdfasdfcvzcxvzx", "LECTURER");
+INSERT INTO lecturer(username, password, fullname, id, phone_number, address, token_code, role_code) 
+VALUES("lecturer2", "123456", "Lecturer 2", 2, "0875543976", "Hồ Chí Minh", "vxzcvaefwefwfecs", "LECTURER");
+
+
+INSERT INTO course(id, name, number_of_credit, fee) 
+VALUES("MATH01", "Toán 1", 3, 3000000);
+INSERT INTO course(id, name, number_of_credit, fee) 
+VALUES("MATH02", "Toán 2", 3, 4000000);
+
 
 
 

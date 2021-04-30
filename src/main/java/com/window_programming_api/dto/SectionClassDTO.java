@@ -8,6 +8,7 @@ import com.window_programming_api.entity.LecturerEntity;
 
 public class SectionClassDTO extends AbstractDTO<SectionClassDTO>{
 	
+	private Long id;
 	private String sectionClassId;
 	private String name;
 	private Date startTime;
@@ -17,6 +18,13 @@ public class SectionClassDTO extends AbstractDTO<SectionClassDTO>{
     private LecturerEntity lecturer;
     private List<Long> registerIds;
     
+    
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getSectionClassId() {
 		return sectionClassId;
 	}

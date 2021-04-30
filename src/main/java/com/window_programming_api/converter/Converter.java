@@ -1,18 +1,15 @@
 package com.window_programming_api.converter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.window_programming_api.dto.CourseDTO;
+import com.window_programming_api.dto.EducationTrainingDTO;
 import com.window_programming_api.dto.LecturerDTO;
-import com.window_programming_api.dto.MyUser;
 import com.window_programming_api.dto.RegisterDTO;
 import com.window_programming_api.dto.RoleDTO;
 import com.window_programming_api.dto.SectionClassDTO;
@@ -20,6 +17,7 @@ import com.window_programming_api.dto.StudentDTO;
 import com.window_programming_api.dto.TokenDTO;
 import com.window_programming_api.dto.UserDTO;
 import com.window_programming_api.entity.CourseEntity;
+import com.window_programming_api.entity.EducationTrainingEntity;
 import com.window_programming_api.entity.LecturerEntity;
 import com.window_programming_api.entity.RegisterEntity;
 import com.window_programming_api.entity.RoleEntity;
@@ -94,12 +92,22 @@ public class Converter {
 			RoleDTO roleDto = (RoleDTO) resObj;
 			RoleEntity roleEntity = (RoleEntity) entity;
 
-			// set userNames
-			if (roleEntity.getUsers() != null) {
-				List<String> userNames = new ArrayList<String>();
-				for (int i = 0; i < roleEntity.getUsers().size(); i++)
-					userNames.add(roleEntity.getUsers().get(i).getUserName());
-				roleDto.setUserNames(userNames);
+			//set student ids
+			if (roleEntity.getStudents() != null) {
+				for (int i=0; i<roleEntity.getStudents().size(); i++)
+					roleDto.getStudentIds().add(roleEntity.getStudents().get(i).getId());
+			}
+			
+			//set lecturer ids
+			if (roleEntity.getLecturers() != null) {
+				for (int i=0; i<roleEntity.getLecturers().size(); i++)
+					roleDto.getLecturerIds().add(roleEntity.getLecturers().get(i).getId());
+			}
+			
+			//set education training ids
+			if (roleEntity.getEducationTrainings() != null) {
+				for (int i=0; i<roleEntity.getEducationTrainings().size(); i++)
+					roleDto.getEducationTrainingIds().add(roleEntity.getEducationTrainings().get(i).getId());
 			}
 
 			return (T) roleDto;
@@ -107,7 +115,7 @@ public class Converter {
 			CourseDTO courseDto = (CourseDTO) resObj;
 			CourseEntity courseEntity = (CourseEntity) entity;
 
-			// set section class id
+			// set section class ids
 			if (courseEntity.getSectionClasses() != null) {
 				for (int i = 0; i < courseEntity.getSectionClasses().size(); i++)
 					courseDto.getSectionClassIds().add(courseEntity.getSectionClasses().get(i).getId());
@@ -124,6 +132,9 @@ public class Converter {
 					lecturerDto.getSectionClassIds().add(lecturerEntity.getSectionClasses().get(i).getId());
 			}
 
+			// set role code
+			lecturerDto.setRoleCode(lecturerEntity.getRole().getCode());
+
 			return (T) lecturerDto;
 		} else if (resObj instanceof RegisterDTO) {
 			RegisterDTO registerDto = (RegisterDTO) resObj;
@@ -139,13 +150,13 @@ public class Converter {
 			StudentDTO studentDto = (StudentDTO) resObj;
 			StudentEntity studentEntity = (StudentEntity) entity;
 
-			// set id
-			studentDto.setStudentId(studentEntity.getId());
 			// set registerIds
 			if (studentEntity.getRegisters() != null) {
 				for (int i = 0; i < studentEntity.getRegisters().size(); i++)
 					studentDto.getRegisterIds().add(studentEntity.getRegisters().get(i).getId());
 			}
+			// set role code
+			studentDto.setRoleCode(studentEntity.getRole().getCode());
 
 			return (T) studentDto;
 		} else if (resObj instanceof SectionClassDTO) {
@@ -161,6 +172,14 @@ public class Converter {
 			}
 
 			return (T) sectionClassDto;
+		} else if (resObj instanceof EducationTrainingDTO) {
+			EducationTrainingDTO educationTrainingDto = (EducationTrainingDTO) resObj;
+			EducationTrainingEntity educationTrainingEntity = (EducationTrainingEntity) entity;
+
+			// set role code
+			educationTrainingDto.setRoleCode(educationTrainingEntity.getRole().getCode());
+
+			return (T) educationTrainingDto;
 		}
 
 		return resObj;
@@ -238,8 +257,6 @@ public class Converter {
 			StudentEntity studentEntity = (StudentEntity) resObj;
 			StudentDTO studentDto = (StudentDTO) dto;
 
-			//set id
-			studentEntity.setId(studentDto.getStudentId());
 			// set roles
 			if (studentDto.getRegisterIds() != null) {
 				for (int i = 0; i < studentDto.getRegisterIds().size(); i++)
@@ -266,21 +283,21 @@ public class Converter {
 		return resObj;
 	}
 
-	public MyUser toMyUser(UserDTO userDto) {
-		if (userDto == null)
-			return null;
-
-		ModelMapper modelMapper = new ModelMapper();
-		MyUser myUser = modelMapper.map(userDto, MyUser.class);
-
-		// set authorities
-		if (userDto.getRoleCodes() != null) {
-			Collection<GrantedAuthority> authorities = new ArrayList<>();
-			for (int i = 0; i < userDto.getRoleCodes().size(); i++)
-				authorities.add(new SimpleGrantedAuthority(userDto.getRoleCodes().get(i)));
-			myUser.setAuthorities(authorities);
-		}
-
-		return myUser;
-	}
+//	public MyUser toMyUser(UserDTO userDto) {
+//		if (userDto == null)
+//			return null;
+//
+//		ModelMapper modelMapper = new ModelMapper();
+//		MyUser myUser = modelMapper.map(userDto, MyUser.class);
+//
+//		// set authorities
+//		if (userDto.getRoleCodes() != null) {
+//			Collection<GrantedAuthority> authorities = new ArrayList<>();
+//			for (int i = 0; i < userDto.getRoleCodes().size(); i++)
+//				authorities.add(new SimpleGrantedAuthority(userDto.getRoleCodes().get(i)));
+//			myUser.setAuthorities(authorities);
+//		}
+//
+//		return myUser;
+//	}
 }

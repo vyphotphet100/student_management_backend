@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -60,8 +62,15 @@ public class StudentEntity {
 	@Column(name = "picture", columnDefinition = "LONGTEXT")
 	private String picture;
 	
+	@Column(name = "token_code", columnDefinition = "TEXT")
+	private String tokenCode;
+	
 	@OneToMany(mappedBy = "student")
     private List<RegisterEntity> registers;
+	
+	@ManyToOne 
+    @JoinColumn(name = "role_code")
+    private RoleEntity role;
 	
 	@Column(name = "createddate")
 	@CreatedDate
@@ -217,6 +226,21 @@ public class StudentEntity {
 	public void setRegisters(List<RegisterEntity> registers) {
 		this.registers = registers;
 	}
-	
+
+	public String getTokenCode() {
+		return tokenCode;
+	}
+
+	public void setTokenCode(String tokenCode) {
+		this.tokenCode = tokenCode;
+	}
+
+	public RoleEntity getRole() {
+		return role;
+	}
+
+	public void setRole(RoleEntity role) {
+		this.role = role;
+	}
 	
 }

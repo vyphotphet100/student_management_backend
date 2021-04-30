@@ -2,10 +2,19 @@ package com.window_programming_api.dto;
 
 public class RegisterDTO extends AbstractDTO<RegisterDTO>{
 	
+	private Long id;
     private String studentId;
     private String sectionClassId;
 	private double midTermMark;
 	private double endTermMark;
+	
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getStudentId() {
 		return studentId;
 	}

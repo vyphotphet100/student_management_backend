@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 
 public class AbstractDTO<T> {
-	private Long id;
 	private Date createdDate;
 	private Date modifiedDate;
 	private String createdBy;
@@ -17,14 +16,6 @@ public class AbstractDTO<T> {
 	private String message;
 	private HttpStatus httpStatus = HttpStatus.OK;
 	private List<Object> listRequest = new ArrayList<Object>();
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public Date getCreatedDate() {
 		return createdDate;

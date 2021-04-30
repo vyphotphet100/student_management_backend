@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseDTO extends AbstractDTO<CourseDTO>{
-	private String courseId;
+	private String id;
 	private String name;
 	private Integer period;
 	private String description;
@@ -13,11 +13,11 @@ public class CourseDTO extends AbstractDTO<CourseDTO>{
     private List<String> sectionClassIds = new ArrayList<String>();
     
 	
-	public String getCourseId() {
-		return courseId;
+	public String getId() {
+		return id;
 	}
-	public void setCourseId(String courseId) {
-		this.courseId = courseId;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;

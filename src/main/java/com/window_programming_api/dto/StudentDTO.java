@@ -5,7 +5,7 @@ import java.util.List;
 
 public class StudentDTO extends AbstractDTO<StudentDTO>{
 
-	private String studentId;
+	private String id;
 	private String firstName;
 	private String lastName;
 	private String fullname;
@@ -18,11 +18,14 @@ public class StudentDTO extends AbstractDTO<StudentDTO>{
 	private String address;
 	private String picture;
     private List<Long> registerIds;
-	public String getStudentId() {
-		return studentId;
+    private String roleCode;
+    
+    
+	public String getId() {
+		return id;
 	}
-	public void setStudentId(String studentId) {
-		this.studentId = studentId;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -95,6 +98,12 @@ public class StudentDTO extends AbstractDTO<StudentDTO>{
 	}
 	public void setRegisterIds(List<Long> registerIds) {
 		this.registerIds = registerIds;
+	}
+	public String getRoleCode() {
+		return roleCode;
+	}
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
 	}
     
 }
