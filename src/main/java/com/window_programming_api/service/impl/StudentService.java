@@ -97,4 +97,18 @@ public class StudentService extends BaseService implements IStudentService {
 		return (StudentDTO) this.ExceptionObject(studentDto,
 				"Student having studentId=" + studentId + " is not found.");
 	}
+
+	@Override
+	public StudentDTO findOneByTokenCode(String token) {
+		StudentDTO studentDto = new StudentDTO();
+		StudentEntity studentEntity = studentRepo.findOneByTokenCode(token);
+		
+		if (studentEntity != null) {
+			studentDto = this.converter.toDTO(studentEntity, StudentDTO.class);
+			studentDto.setMessage("Load student successfully.");
+			return studentDto;
+		}
+		
+		return (StudentDTO)this.ExceptionObject(studentDto, "Cannot find student.");
+	}
 }

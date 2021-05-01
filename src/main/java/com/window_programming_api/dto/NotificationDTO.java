@@ -1,6 +1,6 @@
 package com.window_programming_api.dto;
 
-public class NotificationDTO extends AbstractDTO<NotificationDTO>{
+public class NotificationDTO extends AbstractDTO{
 	
 	private Long id;
 	private String title;

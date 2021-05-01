@@ -1,35 +1,26 @@
 package com.window_programming_api.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.window_programming_api.entity.CourseEntity;
-import com.window_programming_api.entity.LecturerEntity;
-
-public class SectionClassDTO extends AbstractDTO<SectionClassDTO>{
+public class SectionClassDTO extends AbstractDTO{
 	
-	private Long id;
-	private String sectionClassId;
+	private String id;
 	private String name;
 	private Date startTime;
 	private Date endTime;
 	private String room;
-    private CourseEntity course;
-    private LecturerEntity lecturer;
-    private List<Long> registerIds;
+    private String courseId;
+    private Long lecturerId;
+    private List<Long> registerIds = new ArrayList<Long>();
     
     
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
-	}
-	public String getSectionClassId() {
-		return sectionClassId;
-	}
-	public void setSectionClassId(String sectionClassId) {
-		this.sectionClassId = sectionClassId;
 	}
 	public String getName() {
 		return name;
@@ -55,17 +46,18 @@ public class SectionClassDTO extends AbstractDTO<SectionClassDTO>{
 	public void setRoom(String room) {
 		this.room = room;
 	}
-	public CourseEntity getCourse() {
-		return course;
+	
+	public String getCourseId() {
+		return courseId;
 	}
-	public void setCourse(CourseEntity course) {
-		this.course = course;
+	public void setCourseId(String courseId) {
+		this.courseId = courseId;
 	}
-	public LecturerEntity getLecturer() {
-		return lecturer;
+	public Long getLecturerId() {
+		return lecturerId;
 	}
-	public void setLecturer(LecturerEntity lecturer) {
-		this.lecturer = lecturer;
+	public void setLecturerId(Long lecturerId) {
+		this.lecturerId = lecturerId;
 	}
 	public List<Long> getRegisterIds() {
 		return registerIds;

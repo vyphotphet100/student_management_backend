@@ -21,7 +21,7 @@ public class RegisterEntity extends BaseEntity{
 	@Column(name = "midterm_mark")
 	private double midTermMark;
 	
-	@Column(name = "endTermMark")
+	@Column(name = "endterm_mark")
 	private double endTermMark;
 
 	public StudentEntity getStudent() {

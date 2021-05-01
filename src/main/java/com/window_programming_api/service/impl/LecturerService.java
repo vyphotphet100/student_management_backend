@@ -32,4 +32,18 @@ public class LecturerService extends BaseService implements ILecturerService{
 		return (LecturerDTO)this.ExceptionObject(lecturerDto, "There is no lecturer.");
 	}
 
+	@Override
+	public LecturerDTO findOneByTokenCode(String token) {
+		LecturerDTO lecturerDto = new LecturerDTO();
+		LecturerEntity lecturerEntity = lecturerRepo.findOneByTokenCode(token);
+		
+		if (lecturerEntity != null) {
+			lecturerDto = this.converter.toDTO(lecturerEntity, LecturerDTO.class);
+			lecturerDto.setMessage("Load lecturer successfully.");
+			return lecturerDto;
+		}
+		
+		return (LecturerDTO)this.ExceptionObject(lecturerDto, "Cannot find lecturer.");
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.window_programming_api.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class SectionClassEntity {
     private LecturerEntity lecturer;
 	
 	@OneToMany(mappedBy = "sectionClass")
-    private List<RegisterEntity> registers;
+    private List<RegisterEntity> registers = new ArrayList<RegisterEntity>();
 	
 	@Column(name = "createddate")
 	@CreatedDate

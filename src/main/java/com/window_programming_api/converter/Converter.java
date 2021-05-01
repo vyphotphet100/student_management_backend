@@ -1,10 +1,13 @@
 package com.window_programming_api.converter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.window_programming_api.dto.CourseDTO;
@@ -92,21 +95,21 @@ public class Converter {
 			RoleDTO roleDto = (RoleDTO) resObj;
 			RoleEntity roleEntity = (RoleEntity) entity;
 
-			//set student ids
+			// set student ids
 			if (roleEntity.getStudents() != null) {
-				for (int i=0; i<roleEntity.getStudents().size(); i++)
+				for (int i = 0; i < roleEntity.getStudents().size(); i++)
 					roleDto.getStudentIds().add(roleEntity.getStudents().get(i).getId());
 			}
-			
-			//set lecturer ids
+
+			// set lecturer ids
 			if (roleEntity.getLecturers() != null) {
-				for (int i=0; i<roleEntity.getLecturers().size(); i++)
+				for (int i = 0; i < roleEntity.getLecturers().size(); i++)
 					roleDto.getLecturerIds().add(roleEntity.getLecturers().get(i).getId());
 			}
-			
-			//set education training ids
+
+			// set education training ids
 			if (roleEntity.getEducationTrainings() != null) {
-				for (int i=0; i<roleEntity.getEducationTrainings().size(); i++)
+				for (int i = 0; i < roleEntity.getEducationTrainings().size(); i++)
 					roleDto.getEducationTrainingIds().add(roleEntity.getEducationTrainings().get(i).getId());
 			}
 
@@ -135,6 +138,11 @@ public class Converter {
 			// set role code
 			lecturerDto.setRoleCode(lecturerEntity.getRole().getCode());
 
+			// set authorities
+			Collection<GrantedAuthority> authorities = new ArrayList<>();
+			authorities.add(new SimpleGrantedAuthority(lecturerDto.getRoleCode()));
+			lecturerDto.setAuthorities(authorities);
+
 			return (T) lecturerDto;
 		} else if (resObj instanceof RegisterDTO) {
 			RegisterDTO registerDto = (RegisterDTO) resObj;
@@ -145,7 +153,7 @@ public class Converter {
 			// set sectionClassId
 			registerDto.setSectionClassId(registerEntity.getSectionClass().getId());
 
-			return (T) registerEntity;
+			return (T) registerDto;
 		} else if (resObj instanceof StudentDTO) {
 			StudentDTO studentDto = (StudentDTO) resObj;
 			StudentEntity studentEntity = (StudentEntity) entity;
@@ -155,16 +163,20 @@ public class Converter {
 				for (int i = 0; i < studentEntity.getRegisters().size(); i++)
 					studentDto.getRegisterIds().add(studentEntity.getRegisters().get(i).getId());
 			}
+
 			// set role code
 			studentDto.setRoleCode(studentEntity.getRole().getCode());
+
+			// set authorities
+			Collection<GrantedAuthority> authorities = new ArrayList<>();
+			authorities.add(new SimpleGrantedAuthority(studentDto.getRoleCode()));
+			studentDto.setAuthorities(authorities);
 
 			return (T) studentDto;
 		} else if (resObj instanceof SectionClassDTO) {
 			SectionClassDTO sectionClassDto = (SectionClassDTO) resObj;
 			SectionClassEntity sectionClassEntity = (SectionClassEntity) entity;
 
-			// set id
-			sectionClassDto.setSectionClassId(sectionClassEntity.getId());
 			// set registerIds
 			if (sectionClassEntity.getRegisters() != null) {
 				for (int i = 0; i < sectionClassEntity.getRegisters().size(); i++)
@@ -178,6 +190,10 @@ public class Converter {
 
 			// set role code
 			educationTrainingDto.setRoleCode(educationTrainingEntity.getRole().getCode());
+			// set authorities
+			Collection<GrantedAuthority> authorities = new ArrayList<>();
+			authorities.add(new SimpleGrantedAuthority(educationTrainingDto.getRoleCode()));
+			educationTrainingDto.setAuthorities(authorities);
 
 			return (T) educationTrainingDto;
 		}
@@ -268,8 +284,6 @@ public class Converter {
 			SectionClassEntity sectionClassEntity = (SectionClassEntity) resObj;
 			SectionClassDTO sectionClassDto = (SectionClassDTO) dto;
 
-			// set id
-			sectionClassEntity.setId(sectionClassDto.getSectionClassId());
 			// set registers
 			if (sectionClassDto.getRegisterIds() != null) {
 				for (int i = 0; i < sectionClassDto.getRegisterIds().size(); i++)

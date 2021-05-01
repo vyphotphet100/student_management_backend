@@ -1,5 +1,6 @@
 package com.window_programming_api.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class LecturerEntity extends BaseEntity {
 	private String address;
 	
 	@OneToMany(mappedBy = "lecturer")
-    private List<SectionClassEntity> sectionClasses;
+    private List<SectionClassEntity> sectionClasses = new ArrayList<SectionClassEntity>();
 	
 	@Column(name = "token_code", columnDefinition = "TEXT")
 	private String tokenCode;

@@ -13,7 +13,7 @@ public class BaseService implements IBaseService{
 	protected Converter converter;
 
 	@Override
-	public AbstractDTO<?> ExceptionObject(AbstractDTO<?> dto, String message) {
+	public AbstractDTO ExceptionObject(AbstractDTO dto, String message) {
 		dto.setHttpStatus(HttpStatus.ALREADY_REPORTED);
 		dto.setMessage(message);
 		return dto;

@@ -3,7 +3,7 @@ package com.window_programming_api.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoleDTO extends AbstractDTO<RoleDTO>{
+public class RoleDTO extends AbstractDTO{
 	
 	private Long id;
 	private String name;

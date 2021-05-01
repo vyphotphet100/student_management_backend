@@ -3,7 +3,7 @@ package com.window_programming_api.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseDTO extends AbstractDTO<CourseDTO>{
+public class CourseDTO extends AbstractDTO{
 	private String id;
 	private String name;
 	private Integer period;

@@ -1,10 +1,16 @@
 package com.window_programming_api.dto;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-public class StudentDTO extends AbstractDTO<StudentDTO>{
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+public class StudentDTO extends AbstractDTO implements UserDetails{
+	private static final long serialVersionUID = 1L;
+	
 	private String id;
 	private String firstName;
 	private String lastName;
@@ -17,8 +23,9 @@ public class StudentDTO extends AbstractDTO<StudentDTO>{
 	private String phoneNumber;
 	private String address;
 	private String picture;
-    private List<Long> registerIds;
+    private List<Long> registerIds = new ArrayList<Long>();
     private String roleCode;
+    private Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
     
     
 	public String getId() {
@@ -104,6 +111,33 @@ public class StudentDTO extends AbstractDTO<StudentDTO>{
 	}
 	public void setRoleCode(String roleCode) {
 		this.roleCode = roleCode;
+	}
+	
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return authorities;
+	}
+	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+		this.authorities = authorities;
+	}
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return false;
 	}
     
 }

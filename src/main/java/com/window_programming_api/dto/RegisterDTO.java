@@ -1,6 +1,6 @@
 package com.window_programming_api.dto;
 
-public class RegisterDTO extends AbstractDTO<RegisterDTO>{
+public class RegisterDTO extends AbstractDTO{
 	
 	private Long id;
     private String studentId;

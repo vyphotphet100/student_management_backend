@@ -2,12 +2,14 @@ package com.window_programming_api.entity;
 
 import static javax.persistence.TemporalType.TIMESTAMP;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -65,8 +67,8 @@ public class StudentEntity {
 	@Column(name = "token_code", columnDefinition = "TEXT")
 	private String tokenCode;
 	
-	@OneToMany(mappedBy = "student")
-    private List<RegisterEntity> registers;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
+    private List<RegisterEntity> registers = new ArrayList<RegisterEntity>();
 	
 	@ManyToOne 
     @JoinColumn(name = "role_code")

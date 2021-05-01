@@ -2,6 +2,7 @@ package com.window_programming_api.entity;
 
 import static javax.persistence.TemporalType.TIMESTAMP;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class CourseEntity{
 	private Long fee;
 	
 	@OneToMany(mappedBy = "course")
-    private List<SectionClassEntity> sectionClasses;
+    private List<SectionClassEntity> sectionClasses = new ArrayList<SectionClassEntity>();
 	
 	@Column(name = "createddate")
 	@CreatedDate
