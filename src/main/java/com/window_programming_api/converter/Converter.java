@@ -110,7 +110,7 @@ public class Converter {
 			// set education training ids
 			if (roleEntity.getEducationTrainings() != null) {
 				for (int i = 0; i < roleEntity.getEducationTrainings().size(); i++)
-					roleDto.getEducationTrainingIds().add(roleEntity.getEducationTrainings().get(i).getId());
+					roleDto.getEducationTrainingUsernames().add(roleEntity.getEducationTrainings().get(i).getUsername());
 			}
 
 			return (T) roleDto;

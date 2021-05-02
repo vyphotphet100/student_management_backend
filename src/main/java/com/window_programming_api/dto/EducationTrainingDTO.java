@@ -9,19 +9,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class EducationTrainingDTO extends AbstractDTO implements UserDetails{
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
 	private String username;
 	private String password;
 	private String address;
 	private String roleCode;
 	private Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+
 	public String getUsername() {
 		return username;
 	}
