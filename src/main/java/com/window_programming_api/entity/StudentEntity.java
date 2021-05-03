@@ -2,13 +2,17 @@ package com.window_programming_api.entity;
 
 import static javax.persistence.TemporalType.TIMESTAMP;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -25,7 +29,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class StudentEntity {
 
 	@Id
-	private String studentId;
+	private String id;
 	
 	@Column(name = "first_name", columnDefinition = "TEXT")
 	private String firstName;
@@ -33,20 +37,42 @@ public class StudentEntity {
 	@Column(name = "last_name", columnDefinition = "TEXT")
 	private String lastName;
 	
+	@Column(name = "fullname", columnDefinition = "TEXT")
+	private String fullname;
+	
+	@Column(name = "username")
+	private String username;
+	
+	@Column(name = "password")
+	private String password;
+	
 	@Column(name = "birthday")
 	private Date birthday;
+	
+	@Column(name = "start_year")
+	private Integer startYear;
 	
 	@Column(name = "gender")
 	private String gender;
 	
-	@Column(name = "phone")
-	private String phone;
+	@Column(name = "phone_number")
+	private String phoneNumber;
 	
 	@Column(name = "address", columnDefinition = "TEXT")
 	private String address;
 	
 	@Column(name = "picture", columnDefinition = "LONGTEXT")
 	private String picture;
+	
+	@Column(name = "token_code", columnDefinition = "TEXT")
+	private String tokenCode;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
+    private List<RegisterEntity> registers = new ArrayList<RegisterEntity>();
+	
+	@ManyToOne 
+    @JoinColumn(name = "role_code")
+    private RoleEntity role;
 	
 	@Column(name = "createddate")
 	@CreatedDate
@@ -66,15 +92,13 @@ public class StudentEntity {
 	@LastModifiedBy
 	private String modifiedBy;
 	
-	@OneToMany(mappedBy = "student")
-	private List<ScoreEntity> scores;
 
-	public String getStudentId() {
-		return studentId;
+	public String getId() {
+		return id;
 	}
 
-	public void setStudentId(String studentId) {
-		this.studentId = studentId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -109,12 +133,12 @@ public class StudentEntity {
 		this.gender = gender;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setPhoneNumber(String phone) {
+		this.phoneNumber = phone;
 	}
 
 	public String getAddress() {
@@ -165,12 +189,60 @@ public class StudentEntity {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public List<ScoreEntity> getScores() {
-		return scores;
+	public String getFullname() {
+		return fullname;
 	}
 
-	public void setScores(List<ScoreEntity> scores) {
-		this.scores = scores;
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Integer getStartYear() {
+		return startYear;
+	}
+
+	public void setStartYear(Integer startYear) {
+		this.startYear = startYear;
+	}
+
+	public List<RegisterEntity> getRegisters() {
+		return registers;
+	}
+
+	public void setRegisters(List<RegisterEntity> registers) {
+		this.registers = registers;
+	}
+
+	public String getTokenCode() {
+		return tokenCode;
+	}
+
+	public void setTokenCode(String tokenCode) {
+		this.tokenCode = tokenCode;
+	}
+
+	public RoleEntity getRole() {
+		return role;
+	}
+
+	public void setRole(RoleEntity role) {
+		this.role = role;
 	}
 	
 }

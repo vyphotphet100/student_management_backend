@@ -8,4 +8,5 @@ public interface IStudentService extends IBaseService{
 	StudentDTO findAll();
 	StudentDTO findOne(String studentId);
 	StudentDTO delete(String studentId);
+	StudentDTO findOneByTokenCode(String token);
 }

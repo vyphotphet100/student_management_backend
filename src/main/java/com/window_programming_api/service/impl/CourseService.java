@@ -20,10 +20,10 @@ public class CourseService extends BaseService implements ICourseService{
 	public CourseDTO findAll() {
 		CourseDTO courseDto = new CourseDTO();
 		List<CourseEntity> courseEntities = courseRepo.findAll();
-		for (int i = 0; i < courseEntities.size(); i++)
-			courseDto.getListResult().add(converter.toDTO(courseEntities.get(i), CourseDTO.class));
 		
-		if (!courseDto.getListResult().isEmpty()) {
+		if (!courseEntities.isEmpty()) {
+			for (int i = 0; i < courseEntities.size(); i++)
+				courseDto.getListResult().add(converter.toDTO(courseEntities.get(i), CourseDTO.class));
 			courseDto.setMessage("Load list of course successfully.");
 			return courseDto;
 		}
@@ -44,7 +44,7 @@ public class CourseService extends BaseService implements ICourseService{
 
 	@Override
 	public CourseDTO save(CourseDTO courseDto) {
-		if (courseRepo.findOneByCourseId(courseDto.getCourseId()) == null) {
+		if (courseRepo.findOne(courseDto.getId()) == null) {
 			CourseEntity courseEntity = converter.toEntity(courseDto, CourseEntity.class);
 			courseDto = converter.toDTO(courseRepo.save(courseEntity), CourseDTO.class);
 			courseDto.setMessage("Add course successfully.");
@@ -56,7 +56,7 @@ public class CourseService extends BaseService implements ICourseService{
 
 	@Override
 	public CourseDTO update(CourseDTO courseDto) {
-		if (courseRepo.findOneByCourseId(courseDto.getCourseId()) != null) {
+		if (courseRepo.findOne(courseDto.getId()) != null) {
 			CourseEntity courseEntity = converter.toEntity(courseDto, CourseEntity.class);
 			courseDto = converter.toDTO(courseRepo.save(courseEntity), CourseDTO.class);
 			courseDto.setMessage("Update course successfully.");
