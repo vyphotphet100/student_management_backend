@@ -6,6 +6,8 @@ public interface ILecturerService extends IBaseService{
 	LecturerDTO findAll();
 	LecturerDTO findOne(Long id);
 	LecturerDTO save(LecturerDTO lecturerDto);
+	LecturerDTO update(LecturerDTO lecturerDto);
 	LecturerDTO findOneByTokenCode(String token);
+	LecturerDTO delete(Long id);
 }
 

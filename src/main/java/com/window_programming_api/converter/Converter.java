@@ -2,7 +2,6 @@ package com.window_programming_api.converter;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,6 @@ import com.window_programming_api.dto.RegisterDTO;
 import com.window_programming_api.dto.RoleDTO;
 import com.window_programming_api.dto.SectionClassDTO;
 import com.window_programming_api.dto.StudentDTO;
-import com.window_programming_api.dto.TokenDTO;
-import com.window_programming_api.dto.UserDTO;
 import com.window_programming_api.entity.CourseEntity;
 import com.window_programming_api.entity.EducationTrainingEntity;
 import com.window_programming_api.entity.LecturerEntity;
@@ -26,26 +23,12 @@ import com.window_programming_api.entity.RegisterEntity;
 import com.window_programming_api.entity.RoleEntity;
 import com.window_programming_api.entity.SectionClassEntity;
 import com.window_programming_api.entity.StudentEntity;
-import com.window_programming_api.entity.TokenEntity;
-import com.window_programming_api.entity.UserEntity;
 import com.window_programming_api.repository.RegisterRepository;
-import com.window_programming_api.repository.RoleRepository;
 import com.window_programming_api.repository.SectionClassRepository;
 import com.window_programming_api.repository.StudentRepository;
-import com.window_programming_api.repository.TokenRepository;
-import com.window_programming_api.repository.UserRepository;
 
 @Component
 public class Converter {
-
-	@Autowired
-	private UserRepository userRepo;
-
-	@Autowired
-	private TokenRepository tokenRepo;
-
-	@Autowired
-	private RoleRepository roleRepo;
 
 	@Autowired
 	private SectionClassRepository sectionClassRepo;
@@ -64,34 +47,7 @@ public class Converter {
 		ModelMapper modelMapper = new ModelMapper();
 		T resObj = modelMapper.map(entity, tClass);
 
-		if (resObj instanceof TokenDTO) {
-			TokenDTO tokenDto = (TokenDTO) resObj;
-			TokenEntity tokenEntity = (TokenEntity) entity;
-
-			if (tokenEntity.getUser() != null)
-				tokenDto.setUserId(tokenEntity.getUser().getId());
-
-			return (T) tokenDto;
-
-		} else if (resObj instanceof UserDTO) {
-			UserDTO userDto = (UserDTO) resObj;
-			UserEntity userEntity = (UserEntity) entity;
-
-			// set token code
-			if (userEntity.getToken() != null)
-				userDto.setTokenCode(userEntity.getToken().getCode());
-
-			// set roleCodes
-			if (userEntity.getRoles() != null) {
-				List<String> roleCodes = new ArrayList<>();
-				for (int i = 0; i < userEntity.getRoles().size(); i++) {
-					roleCodes.add(userEntity.getRoles().get(i).getCode());
-				}
-				userDto.setRoleCodes(roleCodes);
-			}
-
-			return (T) userDto;
-		} else if (resObj instanceof RoleDTO) {
+		if (resObj instanceof RoleDTO) {
 			RoleDTO roleDto = (RoleDTO) resObj;
 			RoleEntity roleEntity = (RoleEntity) entity;
 
@@ -209,33 +165,7 @@ public class Converter {
 		ModelMapper modelMapper = new ModelMapper();
 		T resObj = modelMapper.map(dto, tClass);
 
-		if (resObj instanceof TokenEntity) {
-			TokenEntity tokenEntity = (TokenEntity) resObj;
-			TokenDTO tokenDto = (TokenDTO) dto;
-
-			// set users
-			if (tokenDto.getUserId() != null)
-				tokenEntity.setUser(userRepo.findOne(tokenDto.getUserId()));
-
-			return (T) tokenEntity;
-		} else if (resObj instanceof UserEntity) {
-			UserEntity userEntity = (UserEntity) resObj;
-			UserDTO userDto = (UserDTO) dto;
-
-			// set token
-			if (userDto.getTokenCode() != null)
-				userEntity.setToken(tokenRepo.findOneByCode(userDto.getTokenCode()));
-
-			// set roles
-			if (userDto.getRoleCodes() != null) {
-				List<RoleEntity> roles = new ArrayList<RoleEntity>();
-				for (int i = 0; i < userDto.getRoleCodes().size(); i++)
-					roles.add(roleRepo.findOneByCode(userDto.getRoleCodes().get(i)));
-				userEntity.setRoles(roles);
-			}
-
-			return (T) userEntity;
-		} else if (resObj instanceof CourseEntity) {
+		if (resObj instanceof CourseEntity) {
 			CourseEntity courseEntity = (CourseEntity) resObj;
 			CourseDTO courseDto = (CourseDTO) dto;
 
