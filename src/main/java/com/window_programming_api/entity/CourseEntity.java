@@ -2,6 +2,7 @@ package com.window_programming_api.entity;
 
 import static javax.persistence.TemporalType.TIMESTAMP;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,10 +26,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class CourseEntity{
 	
 	@Id
-	private String courseId;
+	private String id;
 	
-	@Column(name = "label")
-	private String label;
+	@Column(name = "name")
+	private String name;
 	
 	@Column(name = "period")
 	private Integer period;
@@ -36,8 +37,14 @@ public class CourseEntity{
 	@Column(name = "description")
 	private String description;
 	
+	@Column(name = "number_of_credit")
+	private Integer numberOfCredit;
+	
+	@Column(name = "fee")
+	private Long fee;
+	
 	@OneToMany(mappedBy = "course")
-	private List<ScoreEntity> scores;
+    private List<SectionClassEntity> sectionClasses = new ArrayList<SectionClassEntity>();
 	
 	@Column(name = "createddate")
 	@CreatedDate
@@ -57,12 +64,12 @@ public class CourseEntity{
 	@LastModifiedBy
 	private String modifiedBy;
 
-	public String getLabel() {
-		return label;
+	public String getName() {
+		return name;
 	}
 
-	public void setLabel(String label) {
-		this.label = label;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Integer getPeriod() {
@@ -81,20 +88,12 @@ public class CourseEntity{
 		this.description = description;
 	}
 
-	public List<ScoreEntity> getScores() {
-		return scores;
+	public String getId() {
+		return id;
 	}
 
-	public void setScores(List<ScoreEntity> scores) {
-		this.scores = scores;
-	}
-
-	public String getCourseId() {
-		return courseId;
-	}
-
-	public void setCourseId(String courseId) {
-		this.courseId = courseId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public Date getCreatedDate() {
@@ -128,5 +127,29 @@ public class CourseEntity{
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-	
+
+	public Integer getNumberOfCredit() {
+		return numberOfCredit;
+	}
+
+	public void setNumberOfCredit(Integer numberOfCredit) {
+		this.numberOfCredit = numberOfCredit;
+	}
+
+	public Long getFee() {
+		return fee;
+	}
+
+	public void setFee(Long fee) {
+		this.fee = fee;
+	}
+
+	public List<SectionClassEntity> getSectionClasses() {
+		return sectionClasses;
+	}
+
+	public void setSectionClasses(List<SectionClassEntity> sectionClasses) {
+		this.sectionClasses = sectionClasses;
+	}
+
 }

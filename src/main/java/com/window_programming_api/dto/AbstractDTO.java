@@ -6,8 +6,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
-public class AbstractDTO<T> {
-	private Long id;
+public class AbstractDTO {
 	private Date createdDate;
 	private Date modifiedDate;
 	private String createdBy;
@@ -17,14 +16,7 @@ public class AbstractDTO<T> {
 	private String message;
 	private HttpStatus httpStatus = HttpStatus.OK;
 	private List<Object> listRequest = new ArrayList<Object>();
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	private String tokenCode;
 
 	public Date getCreatedDate() {
 		return createdDate;
@@ -88,6 +80,14 @@ public class AbstractDTO<T> {
 
 	public void setHttpStatus(HttpStatus httpStatus) {
 		this.httpStatus = httpStatus;
+	}
+
+	public String getTokenCode() {
+		return tokenCode;
+	}
+
+	public void setTokenCode(String tokenCode) {
+		this.tokenCode = tokenCode;
 	}
 	
 }

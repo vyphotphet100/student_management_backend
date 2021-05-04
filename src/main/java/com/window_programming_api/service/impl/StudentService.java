@@ -23,7 +23,7 @@ public class StudentService extends BaseService implements IStudentService {
 	@Override
 	public StudentDTO save(StudentDTO studentDto) {
 		// check if student exists already
-		if (studentRepo.findOneByStudentId(studentDto.getStudentId()) == null) {
+		if (studentRepo.findOneById(studentDto.getId()) == null) {
 			StudentEntity studentEntity = studentRepo.save(converter.toEntity(studentDto, StudentEntity.class));
 			StudentDTO resDto = converter.toDTO(studentEntity, StudentDTO.class);
 			resDto.setMessage("Add student successfully.");
@@ -36,7 +36,7 @@ public class StudentService extends BaseService implements IStudentService {
 	@Override
 	public StudentDTO update(StudentDTO studentDto) {
 		// check if student exists already
-		if (studentRepo.findOneByStudentId(studentDto.getStudentId()) != null) {
+		if (studentRepo.findOneById(studentDto.getId()) != null) {
 			StudentEntity studentEntity = studentRepo.save(converter.toEntity(studentDto, StudentEntity.class));
 			studentDto = converter.toDTO(studentEntity, StudentDTO.class);
 			studentDto.setMessage("Update student successfully.");
@@ -50,10 +50,10 @@ public class StudentService extends BaseService implements IStudentService {
 	public StudentDTO findAll() {
 		StudentDTO studentDto = new StudentDTO();
 		List<StudentEntity> studentEntities = studentRepo.findAll();
-		for (int i = 0; i < studentEntities.size(); i++)
-			studentDto.getListResult().add(converter.toDTO(studentEntities.get(i), StudentDTO.class));
 
-		if (!studentDto.getListResult().isEmpty()) {
+		if (!studentEntities.isEmpty()) {
+			for (int i = 0; i < studentEntities.size(); i++)
+				studentDto.getListResult().add(converter.toDTO(studentEntities.get(i), StudentDTO.class));
 			studentDto.setMessage("Load student list successfully.");
 			return studentDto;
 		}
@@ -76,7 +76,7 @@ public class StudentService extends BaseService implements IStudentService {
 	@Override
 	public StudentDTO delete(String studentId) {
 		StudentDTO studentDto = new StudentDTO();
-		studentDto.setStudentId(studentId);
+		studentDto.setId(studentId);
 
 		if (studentRepo.findOne(studentId) != null) {
 			// delete student in database
@@ -96,5 +96,19 @@ public class StudentService extends BaseService implements IStudentService {
 
 		return (StudentDTO) this.ExceptionObject(studentDto,
 				"Student having studentId=" + studentId + " is not found.");
+	}
+
+	@Override
+	public StudentDTO findOneByTokenCode(String token) {
+		StudentDTO studentDto = new StudentDTO();
+		StudentEntity studentEntity = studentRepo.findOneByTokenCode(token);
+		
+		if (studentEntity != null) {
+			studentDto = this.converter.toDTO(studentEntity, StudentDTO.class);
+			studentDto.setMessage("Load student successfully.");
+			return studentDto;
+		}
+		
+		return (StudentDTO)this.ExceptionObject(studentDto, "Cannot find student.");
 	}
 }

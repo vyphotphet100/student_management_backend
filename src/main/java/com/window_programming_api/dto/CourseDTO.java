@@ -3,18 +3,27 @@ package com.window_programming_api.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseDTO extends AbstractDTO<CourseDTO>{
-	private String courseId;
-	private String label;
+public class CourseDTO extends AbstractDTO{
+	private String id;
+	private String name;
 	private Integer period;
 	private String description;
-	private List<Long> scoreIds = new ArrayList<Long>();
+	private Integer numberOfCredit;
+	private Long fee;
+    private List<String> sectionClassIds = new ArrayList<String>();
+    
 	
-	public String getLabel() {
-		return label;
+	public String getId() {
+		return id;
 	}
-	public void setLabel(String label) {
-		this.label = label;
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public Integer getPeriod() {
 		return period;
@@ -28,18 +37,23 @@ public class CourseDTO extends AbstractDTO<CourseDTO>{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public List<Long> getScoreIds() {
-		return scoreIds;
+	public Integer getNumberOfCredit() {
+		return numberOfCredit;
 	}
-	public void setScoreIds(List<Long> scoreIds) {
-		this.scoreIds = scoreIds;
+	public void setNumberOfCredit(Integer numberOfCredit) {
+		this.numberOfCredit = numberOfCredit;
 	}
-	public String getCourseId() {
-		return courseId;
+	public Long getFee() {
+		return fee;
 	}
-	public void setCourseId(String courseId) {
-		this.courseId = courseId;
+	public void setFee(Long fee) {
+		this.fee = fee;
 	}
-	
+	public List<String> getSectionClassIds() {
+		return sectionClassIds;
+	}
+	public void setSectionClassIds(List<String> sectionClassIds) {
+		this.sectionClassIds = sectionClassIds;
+	}
 	
 }
