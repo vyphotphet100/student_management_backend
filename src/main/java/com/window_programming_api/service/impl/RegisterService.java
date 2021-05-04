@@ -32,4 +32,59 @@ public class RegisterService extends BaseService implements IRegisterService{
 		return (RegisterDTO)this.ExceptionObject(registerDto, "There is no register.");
 	}
 
+	@Override
+	public RegisterDTO findOne(Long id) {
+		RegisterDTO registerDto = new RegisterDTO();
+		RegisterEntity registerEntity = registerRepo.findOne(id);
+		
+		if (registerEntity != null) {
+			registerDto = this.converter.toDTO(registerEntity, RegisterDTO.class);
+			registerDto.setMessage("Get register id = " + id + " successfully.");
+			return registerDto;
+		}
+		
+		return (RegisterDTO) this.ExceptionObject(registerDto, "Register does not exist.");
+	}
+
+	@Override
+	public RegisterDTO save(RegisterDTO registerDto) {
+		if (registerRepo.findOneByStudentIdAndSectionClassId(registerDto.getStudentId(), registerDto.getSectionClassId()) == null) {
+			RegisterEntity registerEntity = this.converter.toEntity(registerDto, RegisterEntity.class);
+			registerEntity = registerRepo.save(registerEntity);
+			registerDto = this.converter.toDTO(registerEntity, RegisterDTO.class);
+			registerDto.setMessage("Save register successfully.");
+			return registerDto;
+		}
+		
+		return (RegisterDTO) this.ExceptionObject(registerDto, "Register exists already.");
+	}
+
+	@Override
+	public RegisterDTO update(RegisterDTO registerDto) {
+		RegisterEntity registerEntity = registerRepo.findOneByStudentIdAndSectionClassId(registerDto.getStudentId(), registerDto.getSectionClassId());
+		if (registerEntity != null) {
+			registerDto.setId(registerEntity.getId());
+			registerEntity = this.converter.toEntity(registerDto, RegisterEntity.class);
+			registerEntity = registerRepo.save(registerEntity);
+			registerDto = this.converter.toDTO(registerEntity, RegisterDTO.class);
+			registerDto.setMessage("Update register successfully.");
+			return registerDto;
+		}
+		
+		return (RegisterDTO) this.ExceptionObject(registerDto, "Register does not exist.");
+	}
+
+	@Override
+	public RegisterDTO delete(Long id) {
+		RegisterDTO registerDto = new RegisterDTO();
+		
+		if (registerRepo.findOne(id) != null) {
+			registerRepo.delete(id);
+			registerDto.setMessage("Delete register successfully.");
+			return registerDto;
+		}
+		
+		return (RegisterDTO) this.ExceptionObject(registerDto, "Register does not exist.");
+	}
+
 }

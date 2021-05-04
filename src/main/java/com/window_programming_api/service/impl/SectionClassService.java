@@ -32,4 +32,55 @@ public class SectionClassService extends BaseService implements ISectionClassSer
 		return (SectionClassDTO)this.ExceptionObject(sectionClassDto, "There is no section class.");
 	}
 
+	@Override
+	public SectionClassDTO findOne(String id) {
+		SectionClassDTO sectionClassDto = new SectionClassDTO();
+		SectionClassEntity sectionClassEntity = sectionClassRepo.findOne(id);
+		
+		if (sectionClassEntity != null) {
+			sectionClassDto = this.converter.toDTO(sectionClassEntity, SectionClassDTO.class);
+			sectionClassDto.setMessage("Get section class having id = " + id + " successfully.");
+			return sectionClassDto;
+		}
+		
+		return (SectionClassDTO) this.ExceptionObject(sectionClassDto, "This section class exists already.");
+	}
+
+	@Override
+	public SectionClassDTO save(SectionClassDTO sectionClassDto) {
+		if (sectionClassRepo.findOne(sectionClassDto.getId()) == null) {
+			SectionClassEntity sectionClassEntity = sectionClassRepo.save(this.converter.toEntity(sectionClassDto, SectionClassEntity.class));
+			sectionClassDto = this.converter.toDTO(sectionClassEntity, SectionClassDTO.class);
+			sectionClassDto.setMessage("Save section class successfully.");
+			return sectionClassDto;
+		}
+		
+		return (SectionClassDTO) this.ExceptionObject(sectionClassDto, "This section class exists already.");
+	}
+
+	@Override
+	public SectionClassDTO update(SectionClassDTO sectionClassDto) {
+		if (sectionClassRepo.findOne(sectionClassDto.getId()) != null) {
+			SectionClassEntity sectionClassEntity = sectionClassRepo.save(this.converter.toEntity(sectionClassDto, SectionClassEntity.class));
+			sectionClassDto = this.converter.toDTO(sectionClassEntity, SectionClassDTO.class);
+			sectionClassDto.setMessage("Update section class successfully.");
+			return sectionClassDto;
+		}
+		
+		return (SectionClassDTO) this.ExceptionObject(sectionClassDto, "This section class does not exist.");
+	}
+
+	@Override
+	public SectionClassDTO delete(String id) {
+		SectionClassDTO sectionClassDto = new SectionClassDTO();
+		
+		if (sectionClassRepo.findOne(id) != null) {
+			sectionClassRepo.delete(id);
+			sectionClassDto.setMessage("Delete section class successfully.");
+			return sectionClassDto;
+		}
+		
+		return (SectionClassDTO) this.ExceptionObject(sectionClassDto, "This section class does not exist.");
+	}
+
 }

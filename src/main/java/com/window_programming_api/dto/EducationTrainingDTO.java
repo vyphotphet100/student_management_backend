@@ -9,19 +9,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class EducationTrainingDTO extends AbstractDTO implements UserDetails{
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
 	private String username;
 	private String password;
 	private String address;
 	private String roleCode;
 	private Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+	private String tokenCode;
+
 	public String getUsername() {
 		return username;
 	}
@@ -52,6 +46,14 @@ public class EducationTrainingDTO extends AbstractDTO implements UserDetails{
 	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
 		this.authorities = authorities;
 	}
+	public String getTokenCode() {
+		return tokenCode;
+	}
+
+	public void setTokenCode(String tokenCode) {
+		this.tokenCode = tokenCode;
+	}
+
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub

@@ -16,7 +16,6 @@ public class AbstractDTO {
 	private String message;
 	private HttpStatus httpStatus = HttpStatus.OK;
 	private List<Object> listRequest = new ArrayList<Object>();
-	private String tokenCode;
 
 	public Date getCreatedDate() {
 		return createdDate;
@@ -82,12 +81,5 @@ public class AbstractDTO {
 		this.httpStatus = httpStatus;
 	}
 
-	public String getTokenCode() {
-		return tokenCode;
-	}
-
-	public void setTokenCode(String tokenCode) {
-		this.tokenCode = tokenCode;
-	}
 	
 }

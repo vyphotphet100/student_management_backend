@@ -21,7 +21,8 @@ public class LecturerDTO extends AbstractDTO implements UserDetails{
     private List<String> sectionClassIds = new ArrayList<String>();
     private String roleCode;
     private Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
-    
+	private String tokenCode;
+	
     
 	public Long getId() {
 		return id;
@@ -83,6 +84,14 @@ public class LecturerDTO extends AbstractDTO implements UserDetails{
 	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
 		this.authorities = authorities;
 	}
+	public String getTokenCode() {
+		return tokenCode;
+	}
+
+	public void setTokenCode(String tokenCode) {
+		this.tokenCode = tokenCode;
+	}
+
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub

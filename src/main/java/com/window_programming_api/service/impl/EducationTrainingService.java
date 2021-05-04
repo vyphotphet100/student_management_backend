@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.window_programming_api.dto.EducationTrainingDTO;
 import com.window_programming_api.entity.EducationTrainingEntity;
+import com.window_programming_api.jwtutils.JwtUtil;
 import com.window_programming_api.repository.EducationTrainingRepository;
 import com.window_programming_api.service.IEducationTrainingService;
 
@@ -36,11 +37,15 @@ public class EducationTrainingService extends BaseService implements IEducationT
 	public EducationTrainingDTO update(EducationTrainingDTO educationTrainingDto) {
 
 		// check if student exists already
-		if (educationTrainingRepo.findOne(educationTrainingDto.getUsername()) != null) {
-			EducationTrainingEntity educationTrainingEntity = educationTrainingRepo
+		EducationTrainingEntity educationTrainingEntity = educationTrainingRepo
+				.findOne(educationTrainingDto.getUsername());
+		if (educationTrainingEntity != null) {
+			educationTrainingDto.setTokenCode(educationTrainingEntity.getTokenCode());
+			educationTrainingDto.setRoleCode(educationTrainingEntity.getRole().getCode());
+			educationTrainingEntity = educationTrainingRepo
 					.save(converter.toEntity(educationTrainingDto, EducationTrainingEntity.class));
 			educationTrainingDto = converter.toDTO(educationTrainingEntity, EducationTrainingDTO.class);
-			educationTrainingDto.setMessage("Update student successfully.");
+			educationTrainingDto.setMessage("Update education training successfully.");
 			return educationTrainingDto;
 		}
 
@@ -51,14 +56,58 @@ public class EducationTrainingService extends BaseService implements IEducationT
 	public EducationTrainingDTO findOneByTokenCode(String token) {
 		EducationTrainingDTO educationTrainingDto = new EducationTrainingDTO();
 		EducationTrainingEntity educationTrainingEntity = educationTrainingRepo.findOneByTokenCode(token);
-		
+
 		if (educationTrainingEntity != null) {
 			educationTrainingDto = this.converter.toDTO(educationTrainingEntity, EducationTrainingDTO.class);
 			educationTrainingDto.setMessage("Load education training successfully.");
 			return educationTrainingDto;
 		}
-		
-		return (EducationTrainingDTO)this.ExceptionObject(educationTrainingDto, "Cannot find education training.");
+
+		return (EducationTrainingDTO) this.ExceptionObject(educationTrainingDto, "Cannot find education training.");
+	}
+
+	@Override
+	public EducationTrainingDTO save(EducationTrainingDTO educationTrainingDto) {
+		// check if student exists already
+		if (educationTrainingRepo.findOne(educationTrainingDto.getUsername()) == null) {
+			String token = JwtUtil.generateToken(educationTrainingDto);
+			educationTrainingDto.setTokenCode(token);
+			educationTrainingDto.setRoleCode("ADMIN");
+			EducationTrainingEntity educationTrainingEntity = educationTrainingRepo
+					.save(converter.toEntity(educationTrainingDto, EducationTrainingEntity.class));
+			educationTrainingDto = converter.toDTO(educationTrainingEntity, EducationTrainingDTO.class);
+			educationTrainingDto.setMessage("Add education training successfully.");
+			return educationTrainingDto;
+		}
+
+		return (EducationTrainingDTO) this.ExceptionObject(educationTrainingDto, "This user exists already.");
+	}
+
+	@Override
+	public EducationTrainingDTO delete(String username) {
+		EducationTrainingDTO educationTrainingDto = new EducationTrainingDTO();
+		// check if student exists already
+		if (educationTrainingRepo.findOne(username) != null) {
+			educationTrainingRepo.delete(username);
+			educationTrainingDto.setMessage("Delete " + username + " successfully.");
+			return educationTrainingDto;
+		}
+
+		return (EducationTrainingDTO) this.ExceptionObject(educationTrainingDto, "This user does not exist.");
+	}
+
+	@Override
+	public EducationTrainingDTO findOne(String username) {
+		EducationTrainingDTO educationTrainingDto = new EducationTrainingDTO();
+		EducationTrainingEntity educationTrainingEntity = educationTrainingRepo.findOne(username);
+		// check if student exists already
+		if (educationTrainingEntity != null) {
+			educationTrainingDto = this.converter.toDTO(educationTrainingEntity, EducationTrainingDTO.class);
+			educationTrainingDto.setMessage("Get " + username + " successfully.");
+			return educationTrainingDto;
+		}
+
+		return (EducationTrainingDTO) this.ExceptionObject(educationTrainingDto, "This user does not exist.");
 	}
 
 }

@@ -17,12 +17,17 @@ public class RoleService extends BaseService implements IRoleService{
 	private RoleRepository roleRepo;
 
 	@Override
-	public RoleDTO findOneByCode(String code) {
-		RoleDTO roleDto = converter.toDTO(roleRepo.findOneByCode(code), RoleDTO.class);
-		if (roleDto != null)
-			return roleDto;
+	public RoleDTO findOne(String code) {
+		RoleDTO roleDto = new RoleDTO();
+		RoleEntity roleEntity = roleRepo.findOne(code);
 		
-		return (RoleDTO)this.ExceptionObject(new RoleDTO(), "Role is null");
+		if (roleEntity != null) {
+			roleDto = this.converter.toDTO(roleEntity, RoleDTO.class);
+			roleDto.setMessage("Get role successfully.");
+			return roleDto;
+		}
+			
+		return (RoleDTO)this.ExceptionObject(roleDto, "Role does not exist.");
 	}
 
 	@Override
@@ -39,6 +44,43 @@ public class RoleService extends BaseService implements IRoleService{
 		}
 		
 		return (RoleDTO)this.ExceptionObject(roleDto, "There is no role.");
+	}
+
+	@Override
+	public RoleDTO save(RoleDTO roleDto) {
+		
+		if (roleRepo.findOne(roleDto.getCode()) == null) {
+			RoleEntity roleEntity = roleRepo.save(this.converter.toEntity(roleDto, RoleEntity.class));
+			roleDto = this.converter.toDTO(roleEntity, RoleDTO.class);
+			roleDto.setMessage("Save role successfully.");
+			return roleDto;
+		}
+		
+		return (RoleDTO) this.ExceptionObject(roleDto, "This role exists already.");
+	}
+
+	@Override
+	public RoleDTO update(RoleDTO roleDto) {
+		if (roleRepo.findOne(roleDto.getCode()) != null) {
+			RoleEntity roleEntity = roleRepo.save(this.converter.toEntity(roleDto, RoleEntity.class));
+			roleDto = this.converter.toDTO(roleEntity, RoleDTO.class);
+			roleDto.setMessage("Update role successfully.");
+			return roleDto;
+		}
+		
+		return (RoleDTO) this.ExceptionObject(roleDto, "This role does not exist.");
+	}
+
+	@Override
+	public RoleDTO delete(String code) {
+		RoleDTO roleDto = new RoleDTO();
+		if (roleRepo.findOne(code) != null) {
+			roleRepo.delete(code);
+			roleDto.setMessage("Delete role successfully.");
+			return roleDto;
+		}
+		
+		return (RoleDTO) this.ExceptionObject(roleDto, "This role does not exist.");
 	}
 
 }

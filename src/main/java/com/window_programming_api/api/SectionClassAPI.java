@@ -2,7 +2,12 @@ package com.window_programming_api.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.window_programming_api.dto.SectionClassDTO;
@@ -17,6 +22,30 @@ public class SectionClassAPI {
 	@GetMapping("/api/section_class")
 	public ResponseEntity<SectionClassDTO> getSectionClass() {
 		SectionClassDTO sectionClassDto = sectionClassService.findAll();
+		return new ResponseEntity<SectionClassDTO>(sectionClassDto, sectionClassDto.getHttpStatus());
+	}
+	
+	@GetMapping("/api/section_class/{id}")
+	public ResponseEntity<SectionClassDTO> getOneSectionClass(@PathVariable("id") String id) {
+		SectionClassDTO sectionClassDto = sectionClassService.findOne(id);
+		return new ResponseEntity<SectionClassDTO>(sectionClassDto, sectionClassDto.getHttpStatus());
+	}
+	
+	@PostMapping("/api/section_class")
+	public ResponseEntity<SectionClassDTO> postectionClass(@RequestBody SectionClassDTO sectionClassDto) {
+		sectionClassDto = sectionClassService.save(sectionClassDto);
+		return new ResponseEntity<SectionClassDTO>(sectionClassDto, sectionClassDto.getHttpStatus());
+	}
+	
+	@PutMapping("/api/section_class")
+	public ResponseEntity<SectionClassDTO> putSectionClass(@RequestBody SectionClassDTO sectionClassDto) {
+		sectionClassDto = sectionClassService.update(sectionClassDto);
+		return new ResponseEntity<SectionClassDTO>(sectionClassDto, sectionClassDto.getHttpStatus());
+	}
+	
+	@DeleteMapping("/api/section_class/{id}")
+	public ResponseEntity<SectionClassDTO> deleteSectionClass(@PathVariable("id") String id) {
+		SectionClassDTO sectionClassDto = sectionClassService.delete(id);
 		return new ResponseEntity<SectionClassDTO>(sectionClassDto, sectionClassDto.getHttpStatus());
 	}
 }

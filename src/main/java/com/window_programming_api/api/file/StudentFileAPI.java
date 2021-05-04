@@ -39,7 +39,6 @@ public class StudentFileAPI {
 		return null;
 	}
 
-	// @PreAuthorize("hasAnyAuthority('ADMIN')")
 	@PostMapping(value = "/api/file/student")
 	public ResponseEntity<StudentDTO> postFile(@RequestBody MyFileDTO fileDto) {
 		StudentDTO studentDto = studentFileService.save(fileDto);
@@ -52,7 +51,6 @@ public class StudentFileAPI {
 		return new ResponseEntity<StudentDTO>(studentDto, studentDto.getHttpStatus());
 	}
 
-	// @PreAuthorize("hasAnyAuthority('ADMIN')")
 	@DeleteMapping(value = "/api/file/student")
 	public ResponseEntity<StudentDTO> deleteStudent(@RequestBody MyFileDTO fileDto) {
 		StudentDTO studentDto = studentFileService.delete(fileDto);

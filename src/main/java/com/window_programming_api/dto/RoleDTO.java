@@ -10,7 +10,7 @@ public class RoleDTO extends AbstractDTO{
 	private String code;
 	private List<String> studentIds = new ArrayList<String>();
 	private List<Long> lecturerIds = new ArrayList<Long>();
-	private List<Long> educationTrainingIds = new ArrayList<Long>();
+	private List<String> educationTrainingUsernames = new ArrayList<String>();
 	
 	
 	public Long getId() {
@@ -43,11 +43,11 @@ public class RoleDTO extends AbstractDTO{
 	public void setLecturerIds(List<Long> lecturerIds) {
 		this.lecturerIds = lecturerIds;
 	}
-	public List<Long> getEducationTrainingIds() {
-		return educationTrainingIds;
+	public List<String> getEducationTrainingUsernames() {
+		return educationTrainingUsernames;
 	}
-	public void setEducationTrainingIds(List<Long> educationTrainingIds) {
-		this.educationTrainingIds = educationTrainingIds;
+	public void setEducationTrainingUsernames(List<String> educationTrainingUsernames) {
+		this.educationTrainingUsernames = educationTrainingUsernames;
 	}
-
+	
 }

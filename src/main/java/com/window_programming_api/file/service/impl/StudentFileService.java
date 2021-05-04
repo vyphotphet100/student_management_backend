@@ -52,7 +52,7 @@ public class StudentFileService extends BaseFileService implements IStudentFileS
 			fileDto.setBase64String(Base64.getEncoder().encodeToString(fileByte));
 
 			studentDto.getListResult().add(fileDto);
-			studentDto.setMessage("Load file to baseString64 successfully.");
+			studentDto.setMessage("Load file to base64String successfully.");
 			return studentDto;
 		} catch (Exception ex) {
 			return (StudentDTO) this.ExceptionObject(studentDto, "File is not found.");
