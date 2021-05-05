@@ -22,6 +22,18 @@ public class StudentFileAPI {
 	@Autowired
 	private IStudentFileService studentFileService;
 
+	@GetMapping("/api/file/student")
+	public ResponseEntity<StudentDTO> getStudentFile(@RequestParam("option") String option) {
+		StudentDTO studentDto = new StudentDTO();
+		if (option == null) {
+			studentDto = studentFileService.findAll();
+		} else if (option.equals("print")) {
+			studentDto = studentFileService.printStudentList();
+		}
+
+		return new ResponseEntity<StudentDTO>(studentDto, studentDto.getHttpStatus());
+	}
+	
 	@GetMapping("/api/file/student/**")
 	public ResponseEntity<Object> getFile(HttpServletRequest request,
 			@RequestParam(value = "option", required = false) String option) {
