@@ -43,6 +43,12 @@ public class SectionClassEntity {
 	@Column(name = "room")
 	private String room;
 	
+	@Column(name = "period")
+	private Integer period;
+	
+	@Column(name = "description")
+	private String description;
+	
 	@ManyToOne 
     @JoinColumn(name = "course_id")
     private CourseEntity course;
@@ -167,5 +173,21 @@ public class SectionClassEntity {
 
 	public void setRegisters(List<RegisterEntity> registers) {
 		this.registers = registers;
+	}
+
+	public Integer getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(Integer period) {
+		this.period = period;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

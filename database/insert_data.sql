@@ -23,10 +23,10 @@ INSERT INTO course(id, name, number_of_credit, fee)
 VALUES("MATH02", "Toán 2", 3, 4000000);
 
 
-INSERT INTO section_class(id, name, course_id, room, lecturer_id) 
-VALUES("MATH02_20_02", "Toán 2 - Nhóm 2", "MATH02", "A3-303", 1);
-INSERT INTO section_class(id, name, course_id, room, lecturer_id) 
-VALUES("MATH01_20_03", "Toán 1 - Nhóm 3", "MATH01", "A3-304", 2);
+INSERT INTO section_class(id, name, course_id, room, lecturer_id, period, description) 
+VALUES("MATH02_20_02", "Toán 2 - Nhóm 2", "MATH02", "A3-303", 1, 15, "Đây là Nhóm 2 của môn Toán 2.");
+INSERT INTO section_class(id, name, course_id, room, lecturer_id, period, description) 
+VALUES("MATH01_20_03", "Toán 1 - Nhóm 3", "MATH01", "A3-304", 2, 15, "Đây là Nhóm 3 của môn Toán 1.");
 
 
 INSERT INTO register(student_id, section_class_id, midterm_mark, endterm_mark) 

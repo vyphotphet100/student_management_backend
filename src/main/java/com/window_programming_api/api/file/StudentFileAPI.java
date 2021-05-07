@@ -23,7 +23,7 @@ public class StudentFileAPI {
 	private IStudentFileService studentFileService;
 
 	@GetMapping("/api/file/student")
-	public ResponseEntity<StudentDTO> getStudentFile(@RequestParam("option") String option) {
+	public ResponseEntity<StudentDTO> getStudentFile(@RequestParam(value = "option", required = false) String option) {
 		StudentDTO studentDto = new StudentDTO();
 		if (option == null) {
 			studentDto = studentFileService.findAll();

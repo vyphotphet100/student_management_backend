@@ -7,8 +7,6 @@ public class CourseDTO extends AbstractDTO{
 	
 	private String id;
 	private String name;
-	private Integer period;
-	private String description;
 	private Integer numberOfCredit;
 	private Long fee;
     private List<String> sectionClassIds = new ArrayList<String>();
@@ -25,18 +23,6 @@ public class CourseDTO extends AbstractDTO{
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public Integer getPeriod() {
-		return period;
-	}
-	public void setPeriod(Integer period) {
-		this.period = period;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
 	}
 	public Integer getNumberOfCredit() {
 		return numberOfCredit;

@@ -31,12 +31,6 @@ public class CourseEntity{
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "period")
-	private Integer period;
-	
-	@Column(name = "description")
-	private String description;
-	
 	@Column(name = "number_of_credit")
 	private Integer numberOfCredit;
 	
@@ -70,22 +64,6 @@ public class CourseEntity{
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Integer getPeriod() {
-		return period;
-	}
-
-	public void setPeriod(Integer period) {
-		this.period = period;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public String getId() {
