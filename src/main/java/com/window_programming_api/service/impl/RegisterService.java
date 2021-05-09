@@ -87,4 +87,19 @@ public class RegisterService extends BaseService implements IRegisterService{
 		return (RegisterDTO) this.ExceptionObject(registerDto, "Register does not exist.");
 	}
 
+	@Override
+	public RegisterDTO findAllByStudentId(String studentId) {
+		RegisterDTO registerDto = new RegisterDTO();
+		List<RegisterEntity> registerEntities = registerRepo.findAllByStudentId(studentId);
+		
+		if (!registerEntities.isEmpty()) {
+			for (RegisterEntity registerEntity : registerEntities)
+				registerDto.getListResult().add(this.converter.toDTO(registerEntity, RegisterDTO.class));
+			registerDto.setMessage("Get register by student_id = " + studentId + " successfully.");
+			return registerDto;
+		}
+		
+		return (RegisterDTO)this.ExceptionObject(registerDto, "This student does not have any register.");
+	}
+
 }

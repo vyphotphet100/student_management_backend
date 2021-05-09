@@ -2,6 +2,7 @@ package com.window_programming_api.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,18 +32,21 @@ public class NotificationAPI {
 		return new ResponseEntity<NotificationDTO>(notificationDto, notificationDto.getHttpStatus());
 	}
 	
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@PostMapping("/api/notification")
 	public ResponseEntity<NotificationDTO> postNotification(@RequestBody NotificationDTO notificationDto) {
 		notificationDto = notificationService.save(notificationDto);
 		return new ResponseEntity<NotificationDTO>(notificationDto, notificationDto.getHttpStatus());
 	}
 	
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@PutMapping("/api/notification")
 	public ResponseEntity<NotificationDTO> putNotification(@RequestBody NotificationDTO notificationDto) {
 		notificationDto = notificationService.update(notificationDto);
 		return new ResponseEntity<NotificationDTO>(notificationDto, notificationDto.getHttpStatus());
 	}
 	
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@DeleteMapping("/api/notification/{id}")
 	public ResponseEntity<NotificationDTO> deleteNotification(@PathVariable("id") Long id) {
 		NotificationDTO notificationDto = notificationService.delete(id);

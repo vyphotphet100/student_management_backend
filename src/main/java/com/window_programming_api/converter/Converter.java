@@ -173,7 +173,7 @@ public class Converter {
 			if (courseDto.getSectionClassIds() != null) {
 				for (int i = 0; i < courseDto.getSectionClassIds().size(); i++)
 					courseEntity.getSectionClasses()
-							.add(sectionClassRepo.findOneById(courseDto.getSectionClassIds().get(i)));
+							.add(sectionClassRepo.findOne(courseDto.getSectionClassIds().get(i)));
 			}
 
 			return (T) courseEntity;
@@ -185,7 +185,7 @@ public class Converter {
 			if (lecturerDto.getSectionClassIds() != null) {
 				for (int i = 0; i < lecturerDto.getSectionClassIds().size(); i++)
 					lecturerEntity.getSectionClasses()
-							.add(sectionClassRepo.findOneById(lecturerDto.getSectionClassIds().get(i)));
+							.add(sectionClassRepo.findOne(lecturerDto.getSectionClassIds().get(i)));
 			}
 
 			return (T) lecturerEntity;

@@ -21,35 +21,36 @@ public class StudentAPI {
 	private IStudentService studentService;
 
 	@PostMapping("/api/student")
-	// @PreAuthorize("hasAnyAuthority('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	public ResponseEntity<StudentDTO> postStudent(@RequestBody StudentDTO requestDto) {
 		StudentDTO studentDto = studentService.save(requestDto);
 		return new ResponseEntity<StudentDTO>(studentDto, studentDto.getHttpStatus());
 	}
 
 	@PutMapping("/api/student")
-	// @PreAuthorize("hasAnyAuthority('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	public ResponseEntity<StudentDTO> putStudent(@RequestBody StudentDTO requestDto) {
 		StudentDTO studentDto = studentService.update(requestDto);
 		return new ResponseEntity<StudentDTO>(studentDto, studentDto.getHttpStatus());
 	}
 
 	@GetMapping("/api/student")
-	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'LECTURER')")
 	public ResponseEntity<StudentDTO> getStudent() {
 		StudentDTO studentDto = studentService.findAll();
 		return new ResponseEntity<StudentDTO>(studentDto, studentDto.getHttpStatus());
 	}
 
 	@GetMapping("/api/student/{studentId}")
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'LECTURER')")
 	// @PreAuthorize("hasAnyAuthority('ADMIN')")
 	public ResponseEntity<StudentDTO> getStudentById(@PathVariable("studentId") String studentId) {
 		StudentDTO studentDto = studentService.findOne(studentId);
 		return new ResponseEntity<StudentDTO>(studentDto, studentDto.getHttpStatus());
 	}
 
-	// @PreAuthorize("hasAnyAuthority('ADMIN')")
 	@DeleteMapping("/api/student/{studentId}")
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'LECTURER')")
 	public ResponseEntity<StudentDTO> deleteStudentById(@PathVariable("studentId") String studentId) {
 		StudentDTO studentDto = studentService.delete(studentId);
 		return new ResponseEntity<StudentDTO>(studentDto, studentDto.getHttpStatus());
