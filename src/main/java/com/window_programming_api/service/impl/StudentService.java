@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.window_programming_api.dto.StudentDTO;
+import com.window_programming_api.entity.RegisterEntity;
 import com.window_programming_api.entity.StudentEntity;
 import com.window_programming_api.file.service.IStudentFileService;
 import com.window_programming_api.jwtutils.JwtUtil;
+import com.window_programming_api.repository.RegisterRepository;
 import com.window_programming_api.repository.StudentRepository;
 import com.window_programming_api.service.IStudentService;
 
@@ -20,6 +22,9 @@ public class StudentService extends BaseService implements IStudentService {
 
 	@Autowired
 	private IStudentFileService studentFileService;
+	
+	@Autowired 
+	private RegisterRepository registerRepo;
 
 	@Override
 	public StudentDTO save(StudentDTO studentDto) {
@@ -88,6 +93,11 @@ public class StudentService extends BaseService implements IStudentService {
 		StudentDTO studentDto = new StudentDTO();
 
 		if (studentRepo.findOne(studentId) != null) {
+			//delete register
+			List<RegisterEntity> registerEntities = registerRepo.findAllByStudentId(studentId);
+			for (RegisterEntity registerEntity : registerEntities)
+				registerRepo.delete(registerEntity.getId());
+			
 			// delete student in database
 			studentRepo.delete(studentId);
 

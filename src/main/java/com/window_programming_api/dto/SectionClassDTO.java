@@ -11,6 +11,8 @@ public class SectionClassDTO extends AbstractDTO{
 	private Date startTime;
 	private Date endTime;
 	private String room;
+	private Integer period;
+	private String description;
     private String courseId;
     private Long lecturerId;
     private List<Long> registerIds = new ArrayList<Long>();
@@ -64,6 +66,18 @@ public class SectionClassDTO extends AbstractDTO{
 	}
 	public void setRegisterIds(List<Long> registerIds) {
 		this.registerIds = registerIds;
+	}
+	public Integer getPeriod() {
+		return period;
+	}
+	public void setPeriod(Integer period) {
+		this.period = period;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
     
 }

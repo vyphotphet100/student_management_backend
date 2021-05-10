@@ -83,4 +83,20 @@ public class SectionClassService extends BaseService implements ISectionClassSer
 		return (SectionClassDTO) this.ExceptionObject(sectionClassDto, "This section class does not exist.");
 	}
 
+	@Override
+	public SectionClassDTO findAllByLecturerId(Long lecturerId) {
+		SectionClassDTO sectionClassDto = new SectionClassDTO();
+		List<SectionClassEntity> sectionClassEntities = sectionClassRepo.findAllByLecturerId(lecturerId);
+		
+		if (!sectionClassEntities.isEmpty()) {
+			for (SectionClassEntity sectionClassEntity : sectionClassEntities)
+				sectionClassDto.getListResult().add(this.converter.toDTO(sectionClassEntity, SectionClassDTO.class));
+			sectionClassDto.setMessage("Get section class by lecturer_id = " + lecturerId + " succesfully.");
+			return sectionClassDto;
+		}
+		
+		return (SectionClassDTO)this.ExceptionObject(sectionClassDto, "This lecturer does not have any section class.");
+		
+	}
+
 }

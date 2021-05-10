@@ -23,7 +23,7 @@ public class CourseFileAPI {
 		CourseDTO courseDto = new CourseDTO();
 		if (option == null) {
 			courseDto = courseFileService.findAll();
-		} else if (option.equals("printCourseList")) {
+		} else if (option.equals("print")) {
 			courseDto = courseFileService.printCourseList();
 		}
 
