@@ -55,5 +55,12 @@ public class StudentAPI {
 		StudentDTO studentDto = studentService.delete(studentId);
 		return new ResponseEntity<StudentDTO>(studentDto, studentDto.getHttpStatus());
 	}
+	
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'STUDENT')")
+	@GetMapping("/api/student/{studentId}/registered_section_class")
+	public ResponseEntity<StudentDTO> getRegisteredSectionClass(@PathVariable("studentId") String studentId) {
+		StudentDTO studentDto = studentService.findAllRegisteredSectionClass(studentId);
+		return new ResponseEntity<StudentDTO>(studentDto, studentDto.getHttpStatus());
+	}
 
 }
