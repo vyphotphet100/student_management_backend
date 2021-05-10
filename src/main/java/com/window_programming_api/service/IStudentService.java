@@ -6,6 +6,7 @@ public interface IStudentService extends IBaseService{
 	StudentDTO save(StudentDTO studentDto);
 	StudentDTO update(StudentDTO studentDto);
 	StudentDTO findAll();
+	StudentDTO findAllRegisteredSectionClass(String studentId);
 	StudentDTO findOne(String studentId);
 	StudentDTO delete(String studentId);
 	StudentDTO findOneByTokenCode(String token);
