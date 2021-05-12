@@ -9,7 +9,6 @@ public interface ICourseFileService extends IBaseFileService{
 	CourseDTO save(MyFileDTO fileDto);
 	CourseDTO update(MyFileDTO fileDto);
 	CourseDTO delete(String fileName);
-	CourseDTO printCourseList();
 	
 	byte[] getFile(String source);
 }

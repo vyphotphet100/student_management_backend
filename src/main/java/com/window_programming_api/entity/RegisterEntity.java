@@ -23,6 +23,9 @@ public class RegisterEntity extends BaseEntity{
 	
 	@Column(name = "endterm_mark")
 	private double endTermMark;
+	
+	@Column(name = "description")
+	private String description;
 
 	public StudentEntity getStudent() {
 		return student;
@@ -55,4 +58,13 @@ public class RegisterEntity extends BaseEntity{
 	public void setEndTermMark(double endTermMark) {
 		this.endTermMark = endTermMark;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 }

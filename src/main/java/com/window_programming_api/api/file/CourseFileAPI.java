@@ -23,8 +23,6 @@ public class CourseFileAPI {
 		CourseDTO courseDto = new CourseDTO();
 		if (option == null) {
 			courseDto = courseFileService.findAll();
-		} else if (option.equals("print")) {
-			courseDto = courseFileService.printCourseList();
 		}
 
 		return new ResponseEntity<CourseDTO>(courseDto, courseDto.getHttpStatus());

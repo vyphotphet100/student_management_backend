@@ -132,7 +132,7 @@ public class StudentService extends BaseService implements IStudentService {
 	}
 
 	@Override
-	public StudentDTO findAllRegisteredSectionClass(String studentId) {
+	public StudentDTO findAllRegisteredSectionClassByStudentId(String studentId) {
 		StudentDTO studentDto = new StudentDTO();
 
 		List<RegisterEntity> registerEntities = registerRepo.findAllByStudentId(studentId);

@@ -13,4 +13,5 @@ public interface IStudentFileService extends IBaseFileService{
 	StudentDTO deleteAll(String studentId);
 	
 	StudentDTO printStudentList();
+	StudentDTO printResult(String studentId);
 }

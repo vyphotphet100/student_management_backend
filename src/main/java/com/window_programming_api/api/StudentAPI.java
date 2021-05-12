@@ -59,7 +59,7 @@ public class StudentAPI {
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'STUDENT')")
 	@GetMapping("/api/student/{studentId}/registered_section_class")
 	public ResponseEntity<StudentDTO> getRegisteredSectionClass(@PathVariable("studentId") String studentId) {
-		StudentDTO studentDto = studentService.findAllRegisteredSectionClass(studentId);
+		StudentDTO studentDto = studentService.findAllRegisteredSectionClassByStudentId(studentId);
 		return new ResponseEntity<StudentDTO>(studentDto, studentDto.getHttpStatus());
 	}
 

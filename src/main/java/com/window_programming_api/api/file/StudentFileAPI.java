@@ -29,7 +29,7 @@ public class StudentFileAPI {
 			studentDto = studentFileService.findAll();
 		} else if (option.equals("print")) {
 			studentDto = studentFileService.printStudentList();
-		}
+		} 
 
 		return new ResponseEntity<StudentDTO>(studentDto, studentDto.getHttpStatus());
 	}
@@ -37,18 +37,21 @@ public class StudentFileAPI {
 	@GetMapping("/api/file/student/**")
 	public ResponseEntity<Object> getFile(HttpServletRequest request,
 			@RequestParam(value = "option", required = false) String option) {
+		StudentDTO studentDto = new StudentDTO();
 		if (option == null) {
-			StudentDTO studentDto = studentFileService
+			studentDto = studentFileService
 					.findOneByFileName(request.getRequestURI().split("/api/file/student/")[1]);
-			return new ResponseEntity<Object>(studentDto, studentDto.getHttpStatus());
 		} else if (option.equals("getFile")) {
 			return ResponseEntity.ok()
 					.header(HttpHeaders.CONTENT_DISPOSITION,
 							"attachment;filename=" + request.getRequestURI().split("/api/file/student/")[1])
 					.body(studentFileService.getFile(request.getRequestURI()));
+		} else if (option.equals("printResult")) {
+			String studentId = request.getRequestURI().split("/api/file/student/")[1];
+			studentDto = studentFileService.printResult(studentId);
 		}
 
-		return null;
+		return new ResponseEntity<Object>(studentDto, studentDto.getHttpStatus());
 	}
 
 	@PostMapping(value = "/api/file/student")

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -21,8 +23,12 @@ import org.springframework.stereotype.Service;
 
 import com.window_programming_api.dto.MyFileDTO;
 import com.window_programming_api.dto.StudentDTO;
+import com.window_programming_api.entity.RegisterEntity;
+import com.window_programming_api.entity.SectionClassEntity;
 import com.window_programming_api.entity.StudentEntity;
 import com.window_programming_api.file.service.IStudentFileService;
+import com.window_programming_api.repository.RegisterRepository;
+import com.window_programming_api.repository.SectionClassRepository;
 import com.window_programming_api.repository.StudentRepository;
 import com.window_programming_api.utils.MyFileUtil;
 import com.window_programming_api.utils.POIUtil;
@@ -32,6 +38,12 @@ public class StudentFileService extends BaseFileService implements IStudentFileS
 
 	@Autowired
 	private StudentRepository studentRepo;
+
+	@Autowired
+	private RegisterRepository registerRepo;
+
+	@Autowired
+	private SectionClassRepository sectionClassRepo;
 
 	@Override
 	public byte[] getFile(String source) {
@@ -190,7 +202,8 @@ public class StudentFileService extends BaseFileService implements IStudentFileS
 				POIUtil.addParagraphToTableCell(tableRow.getCell(2), 14, studentEntities.get(i).getLastName(), false);
 				POIUtil.addParagraphToTableCell(tableRow.getCell(3), 14, studentEntities.get(i).getAddress(), false);
 				Date birthday = studentEntities.get(i).getBirthday();
-				String birthdayStr = birthday.getDate() + "/" + (birthday.getMonth()+1) + "/" + (birthday.getYear()+1900);
+				String birthdayStr = birthday.getDate() + "/" + (birthday.getMonth() + 1) + "/"
+						+ (birthday.getYear() + 1900);
 				POIUtil.addParagraphToTableCell(tableRow.getCell(4), 14, birthdayStr, false);
 				POIUtil.addParagraphToTableCell(tableRow.getCell(5), 14, studentEntities.get(i).getGender(), false);
 				POIUtil.addParagraphToTableCell(tableRow.getCell(6), 14, studentEntities.get(i).getPhoneNumber(),
@@ -218,6 +231,126 @@ public class StudentFileService extends BaseFileService implements IStudentFileS
 	public StudentDTO findAll() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public StudentDTO printResult(String studentId) {
+		StudentDTO studentDto = new StudentDTO();
+		StudentEntity studentEntity = studentRepo.findOne(studentId);
+		List<RegisterEntity> registeredEntities = registerRepo.findAllByStudentId(studentId);
+		List<SectionClassEntity> registeredSectionClassEntities = new ArrayList<SectionClassEntity>();
+		for (RegisterEntity registeredEntity : registeredEntities) {
+			SectionClassEntity sectionClassEntity = sectionClassRepo
+					.findOne(registeredEntity.getSectionClass().getId());
+			registeredSectionClassEntities.add(sectionClassEntity);
+		}
+
+		// Create document
+		// Blank Document
+		@SuppressWarnings("resource")
+		XWPFDocument document = new XWPFDocument();
+
+		// set orientation to landscape
+		CTBody body = document.getDocument().getBody();
+		if (!body.isSetSectPr()) {
+			body.addNewSectPr();
+		}
+		CTSectPr section = body.getSectPr();
+		if (!section.isSetPgSz()) {
+			section.addNewPgSz();
+		}
+		CTPageSz pageSize = section.getPgSz();
+		pageSize.setOrient(STPageOrientation.LANDSCAPE);
+		// A4 = 595x842 / multiply 20 since BigInteger represents 1/20 Point
+		pageSize.setW(BigInteger.valueOf(16840));
+		pageSize.setH(BigInteger.valueOf(11900));
+
+		// Write the Document in file system
+		FileOutputStream out;
+		try {
+			File pathDoc = new File("src/main/resources/sources/student/" + studentId);
+			if (!pathDoc.exists())
+				pathDoc.mkdirs();
+
+			out = new FileOutputStream(new File(pathDoc.getAbsolutePath() + "/result.docx"));
+
+			// create Paragraph
+			POIUtil.setRun(document.createParagraph().createRun(), 17, "STUDENT RESULT: ", true);
+
+			// Student's information
+			POIUtil.setRun(document.createParagraph().createRun(), 14, "Student's information: ", true);
+
+			// create table
+			XWPFTable table = document.createTable();
+			// create first row
+			XWPFTableRow tableRow = table.getRow(0);
+			POIUtil.addParagraphToTableCell(tableRow.getCell(0), 14, "Student ID ", true);
+			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "First name ", true);
+			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "Last name ", true);
+			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "Address ", true);
+			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "Birthday ", true);
+			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "Gender ", true);
+			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "Phone ", true);
+			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "Picture ", true);
+
+			tableRow = table.createRow();
+			POIUtil.addParagraphToTableCell(tableRow.getCell(0), 14, studentEntity.getId(), false);
+			POIUtil.addParagraphToTableCell(tableRow.getCell(1), 14, studentEntity.getFirstName(), false);
+			POIUtil.addParagraphToTableCell(tableRow.getCell(2), 14, studentEntity.getLastName(), false);
+			POIUtil.addParagraphToTableCell(tableRow.getCell(3), 14, studentEntity.getAddress(), false);
+			Date birthday = studentEntity.getBirthday();
+			String birthdayStr = birthday.getDate() + "/" + (birthday.getMonth() + 1) + "/"
+					+ (birthday.getYear() + 1900);
+			POIUtil.addParagraphToTableCell(tableRow.getCell(4), 14, birthdayStr, false);
+			POIUtil.addParagraphToTableCell(tableRow.getCell(5), 14, studentEntity.getGender(), false);
+			POIUtil.addParagraphToTableCell(tableRow.getCell(6), 14, studentEntity.getPhoneNumber(), false);
+			POIUtil.addPictureToTableCell(tableRow.getCell(7),
+					"src/main/resources/sources/student/" + studentEntity.getId() + "/avatar.png");
+
+			// KẾT QUẢ
+			POIUtil.setRun(document.createParagraph().createRun(), 14, " ", true);
+			POIUtil.setRun(document.createParagraph().createRun(), 14, "Result: ", true);
+
+			// create table
+			XWPFTable table2 = document.createTable();
+			// create first row
+			XWPFTableRow tableRow2 = table2.getRow(0);
+			POIUtil.addParagraphToTableCell(tableRow2.getCell(0), 14, "Course ", true);
+			POIUtil.addParagraphToTableCell(tableRow2.addNewTableCell(), 14, "Score ", true);
+			POIUtil.addParagraphToTableCell(tableRow2.addNewTableCell(), 14, "Result ", true);
+
+			double totalScore = 0;
+			for (RegisterEntity registeredEntity : registeredEntities) {
+				tableRow2 = table2.createRow();
+				SectionClassEntity sectionClassEntity = sectionClassRepo.findOne(registeredEntity.getSectionClass().getId());
+				POIUtil.addParagraphToTableCell(tableRow2.getCell(0), 14, sectionClassEntity.getName(), false);
+				POIUtil.addParagraphToTableCell(tableRow2.getCell(1), 14, String.valueOf(registeredEntity.getEndTermMark()), false);
+				totalScore += registeredEntity.getEndTermMark();
+				POIUtil.addParagraphToTableCell(tableRow2.getCell(2), 14, registeredEntity.getDescription(), false);
+			}
+			double avgScore = totalScore/registeredEntities.size();
+			POIUtil.setRun(document.createParagraph().createRun(), 14, " ", true);
+		    DecimalFormat df = new DecimalFormat("#.00");
+			POIUtil.setRun(document.createParagraph().createRun(), 14, "Average score: " + df.format(avgScore), true);
+			if (avgScore < 5) 
+				POIUtil.setRun(document.createParagraph().createRun(), 14, "Result: Fail", true);
+			else 
+				POIUtil.setRun(document.createParagraph().createRun(), 14, "Result: Pass", true);
+
+			document.write(out);
+			out.close();
+
+			System.out.println("result.docx written successully");
+			String linkDocFile = "/api/file/student/"+ studentId + "/result.docx";
+			studentDto.getListResult().add(linkDocFile);
+			studentDto.setMessage("result.docx written successully.");
+			return studentDto;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return (StudentDTO) this.ExceptionObject(studentDto, e.toString());
+		}
 	}
 
 }

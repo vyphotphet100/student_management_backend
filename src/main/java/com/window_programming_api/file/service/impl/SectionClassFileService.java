@@ -53,7 +53,7 @@ public class SectionClassFileService extends BaseFileService implements ISection
 			POIUtil.addParagraphToTableCell(tableRow.getCell(0), 14, "Course ID ", true);
 			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "Label ", true);
 			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "Period ", true);
-			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "Desciption ", true);
+			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "Description ", true);
 
 			for (int i = 0; i < sectionClassEntities.size(); i++) {
 				// create row after

@@ -7,6 +7,7 @@ public class RegisterDTO extends AbstractDTO{
     private String sectionClassId;
 	private double midTermMark;
 	private double endTermMark;
+	private String description;
 	
 	
 	public Long getId() {
@@ -38,6 +39,12 @@ public class RegisterDTO extends AbstractDTO{
 	}
 	public void setEndTermMark(double endTermMark) {
 		this.endTermMark = endTermMark;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }
