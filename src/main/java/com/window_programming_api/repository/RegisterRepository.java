@@ -9,4 +9,5 @@ import com.window_programming_api.entity.RegisterEntity;
 public interface RegisterRepository extends JpaRepository<RegisterEntity, Long>{
 	RegisterEntity findOneByStudentIdAndSectionClassId(String studentId, String sectionClassId);
 	List<RegisterEntity> findAllByStudentId(String studentId);
+	List<RegisterEntity> findAllBySectionClassId(String sectionClassId);
 }

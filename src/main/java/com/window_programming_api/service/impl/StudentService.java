@@ -141,9 +141,9 @@ public class StudentService extends BaseService implements IStudentService {
 				SectionClassEntity sectionClassEntity = sectionClassRepo
 						.findOne(registerEntity.getSectionClass().getId());
 				studentDto.getListResult().add(this.converter.toDTO(sectionClassEntity, SectionClassDTO.class));
-				studentDto.setMessage("Get registered section class by student_id = " + studentId + " successfully.");
-				return studentDto;
 			}
+			studentDto.setMessage("Get registered section class by student_id = " + studentId + " successfully.");
+			return studentDto;
 		}
 		return (StudentDTO) this.ExceptionObject(studentDto, "This student does not have any registered section class");
 	}

@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
@@ -323,28 +324,144 @@ public class StudentFileService extends BaseFileService implements IStudentFileS
 			double totalScore = 0;
 			for (RegisterEntity registeredEntity : registeredEntities) {
 				tableRow2 = table2.createRow();
-				SectionClassEntity sectionClassEntity = sectionClassRepo.findOne(registeredEntity.getSectionClass().getId());
+				SectionClassEntity sectionClassEntity = sectionClassRepo
+						.findOne(registeredEntity.getSectionClass().getId());
 				POIUtil.addParagraphToTableCell(tableRow2.getCell(0), 14, sectionClassEntity.getName(), false);
-				POIUtil.addParagraphToTableCell(tableRow2.getCell(1), 14, String.valueOf(registeredEntity.getEndTermMark()), false);
+				POIUtil.addParagraphToTableCell(tableRow2.getCell(1), 14,
+						String.valueOf(registeredEntity.getEndTermMark()), false);
 				totalScore += registeredEntity.getEndTermMark();
 				POIUtil.addParagraphToTableCell(tableRow2.getCell(2), 14, registeredEntity.getDescription(), false);
 			}
-			double avgScore = totalScore/registeredEntities.size();
+			double avgScore = totalScore / registeredEntities.size();
 			POIUtil.setRun(document.createParagraph().createRun(), 14, " ", true);
-		    DecimalFormat df = new DecimalFormat("#.00");
+			DecimalFormat df = new DecimalFormat("#.00");
 			POIUtil.setRun(document.createParagraph().createRun(), 14, "Average score: " + df.format(avgScore), true);
-			if (avgScore < 5) 
+			if (avgScore < 5)
 				POIUtil.setRun(document.createParagraph().createRun(), 14, "Result: Fail", true);
-			else 
+			else
 				POIUtil.setRun(document.createParagraph().createRun(), 14, "Result: Pass", true);
 
 			document.write(out);
 			out.close();
 
 			System.out.println("result.docx written successully");
-			String linkDocFile = "/api/file/student/"+ studentId + "/result.docx";
+			String linkDocFile = "/api/file/student/" + studentId + "/result.docx";
 			studentDto.getListResult().add(linkDocFile);
 			studentDto.setMessage("result.docx written successully.");
+			return studentDto;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return (StudentDTO) this.ExceptionObject(studentDto, e.toString());
+		}
+	}
+
+	@SuppressWarnings({ "resource" })
+	@Override
+	public StudentDTO printTimetable(String studentId) {
+		StudentDTO studentDto = new StudentDTO();
+		List<RegisterEntity> registerEntities = registerRepo.findAllByStudentId(studentId);
+
+		// Create document
+		// Blank Document
+		XWPFDocument document = new XWPFDocument();
+
+		// set orientation to landscape
+		CTBody body = document.getDocument().getBody();
+		if (!body.isSetSectPr()) {
+			body.addNewSectPr();
+		}
+		CTSectPr section = body.getSectPr();
+		if (!section.isSetPgSz()) {
+			section.addNewPgSz();
+		}
+		CTPageSz pageSize = section.getPgSz();
+		pageSize.setOrient(STPageOrientation.LANDSCAPE);
+		// A4 = 595x842 / multiply 20 since BigInteger represents 1/20 Point
+		pageSize.setW(BigInteger.valueOf(16840));
+		pageSize.setH(BigInteger.valueOf(11900));
+
+		// Write the Document in file system
+		FileOutputStream out;
+		try {
+			File pathDoc = new File("src/main/resources/sources/student/" + studentId);
+			if (!pathDoc.exists())
+				pathDoc.mkdirs();
+
+			out = new FileOutputStream(new File(pathDoc.getAbsolutePath() + "/timetable.docx"));
+
+			// create Paragraph
+			POIUtil.setRun(document.createParagraph().createRun(), 14, "TIMETABLE ", true);
+			StudentEntity studentEntity = studentRepo.findOne(studentId);
+			POIUtil.setRun(document.createParagraph().createRun(), 14, "Student name: " + studentEntity.getFullname(),
+					false);
+			POIUtil.setRun(document.createParagraph().createRun(), 14, "Student ID: " + studentEntity.getId(), false);
+
+			// create table
+			XWPFTable table = document.createTable();
+			// create first row
+			XWPFTableRow tableRow = table.getRow(0);
+			POIUtil.addParagraphToTableCell(tableRow.getCell(0), 14, "Monday ", true);
+			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "Tuesday ", true);
+			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "Wednesday ", true);
+			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "Thursday ", true);
+			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "Friday ", true);
+			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "Saturday ", true);
+			POIUtil.addParagraphToTableCell(tableRow.addNewTableCell(), 14, "Sunday ", true);
+
+			List<SectionClassEntity> sectionClassEntities = new ArrayList<SectionClassEntity>();
+			for (RegisterEntity registerEntity : registerEntities)
+				sectionClassEntities.add(registerEntity.getSectionClass());
+
+			for (int weekday = 2; weekday <= 8; weekday++) {
+				// get section classes of current day
+				List<SectionClassEntity> curSectionClassEntities = new ArrayList<SectionClassEntity>();
+				for (SectionClassEntity sectionClassEntity : sectionClassEntities) {
+					if (sectionClassEntity.getWeekday() == weekday && weekday != 8)
+						curSectionClassEntities.add(sectionClassEntity);
+				}
+
+				// sort section classes of current day
+				for (int i = 0; i < curSectionClassEntities.size() - 1; i++) {
+					for (int j = i + 1; j < curSectionClassEntities.size(); j++) {
+						if (curSectionClassEntities.get(i).getStartTime().getTime() > curSectionClassEntities.get(j)
+								.getStartTime().getTime()) {
+							SectionClassEntity tmp = curSectionClassEntities.get(i);
+							curSectionClassEntities.set(i, curSectionClassEntities.get(j));
+							curSectionClassEntities.set(j, tmp);
+						}
+					}
+				}
+
+				for (int i = 0; i < curSectionClassEntities.size(); i++) {
+					SectionClassEntity sectionClassEntity = curSectionClassEntities.get(i);
+					if (table.getRow(i + 1) == null)
+						table.createRow();
+
+					tableRow = table.getRow(i + 1);
+					StringBuilder content = new StringBuilder();
+					content.append("Section class: " + sectionClassEntity.getName() + "\n");
+					
+					SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+					String startTime = simpleDateFormat.format(sectionClassEntity.getStartTime().getTime() - 7*3600*1000);
+					String endTime = simpleDateFormat.format(sectionClassEntity.getEndTime().getTime() - 7*3600*1000);
+					content.append("Start time: " + startTime + "\n");
+					content.append("End time: " + endTime + "\n");
+					content.append("Room: " + sectionClassEntity.getRoom() + "\n");
+					content.append("Lecturer: " + sectionClassEntity.getLecturer().getFullname());
+					POIUtil.addParagraphToTableCell(tableRow.getCell(weekday - 2), 14, content.toString(), false);
+					POIUtil.splitBreakInCell(tableRow.getCell(weekday - 2));
+				}
+
+			}
+
+			document.write(out);
+			out.close();
+
+			System.out.println("timetable.docx written successully");
+			String linkDocFile = "/api/file/student/" + studentId + "/timetable.docx";
+			studentDto.getListResult().add(linkDocFile);
+			studentDto.setMessage("timetable.docx written successully.");
 			return studentDto;
 
 		} catch (IOException e) {

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +25,18 @@ public class RegisterFileAPI {
 		RegisterDTO registerDto = new RegisterDTO();
 		if (option.equals("print")) {
 			registerDto = registerFileService.printRegisterList();
+		}
+
+		return new ResponseEntity<RegisterDTO>(registerDto, registerDto.getHttpStatus());
+	}
+
+	@GetMapping("/api/file/register/section_class_id/{sectionClassId}")
+	public ResponseEntity<RegisterDTO> getRegisterFileBySectionClassId(
+			@RequestParam(value = "option", required = false) String option,
+			@PathVariable("sectionClassId") String sectionClassId) {
+		RegisterDTO registerDto = new RegisterDTO();
+		if (option.equals("print")) {
+			registerDto = registerFileService.printRegisterBySectionClass2(sectionClassId);
 		}
 
 		return new ResponseEntity<RegisterDTO>(registerDto, registerDto.getHttpStatus());

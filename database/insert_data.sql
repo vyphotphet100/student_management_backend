@@ -1,10 +1,14 @@
 INSERT INTO role(code, name) VALUES("ADMIN", "Administrator");
 INSERT INTO role(code, name) VALUES("STUDENT", "Student");
 INSERT INTO role(code, name) VALUES("LECTURER", "Lecturer");
+INSERT INTO role(code, name) VALUES("DT", "Đại trà");
+INSERT INTO role(code, name) VALUES("CLC", "Chất lượng cao");
+INSERT INTO role(code, name) VALUES("CNTT", "Công nghệ thông tin");
+INSERT INTO role(code, name) VALUES("PDT", "Phòng đào tạo");
 
 
 INSERT INTO education_training(username, password, address, token_code, role_code) 
-VALUES("admin", "123456", "Hồ Chí Minh", "kjflhaskdfjayoiuyiuyiupiouoiyuytidmnfsfdsgdbhsldkfjas", "ADMIN");
+VALUES("admin1", "123456", "Thành phố Hồ Chí Minh", "kjflhaskdfjayoiuyiuyiupiouoiyuytidmnfsfdsgdbhsldkfjas", "ADMIN");
 
 INSERT INTO `student` (`id`, `address`, `birthday`, `createdby`, `createddate`, `first_name`, `fullname`, `gender`, `last_name`, `modifiedby`, `modifieddate`, `password`, `phone_number`, `picture`, `start_year`, `token_code`, `username`, `role_code`) VALUES
 ('19110143', 'Quảng Bình', '2001-04-15 00:00:00', 'admin', '2021-05-10 02:55:25', 'Cao Đinh Sỹ', 'Cao Đinh Sỹ Vỹ', 'Male', 'Vỹ', 'admin', '2021-05-10 02:55:25', '19110143', '0975543975', '/api/file/student/19110143/avatar.png', 2021, 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjp7ImJpcnRoZGF5IjoiU3VuIEFwciAxNSAwNzowMDowMCBJQ1QgMjAwMSIsImxhc3ROYW1lIjoiVuG7uSIsInRva2VuQ29kZSI6bnVsbCwibGlzdFJlc3VsdCI6W10sImFkZHJlc3MiOiJRdeG6o25nIELDrG5oIiwiZ2VuZGVyIjoiTWFsZSIsInN0YXJ0WWVhciI6MjAyMSwibWVzc2FnZSI6bnVsbCwicmVnaXN0ZXJJZHMiOltdLCJwaWN0dXJlIjoiXC9hcGlcL2ZpbGVcL3N0dWRlbnRcLzE5MTEwMTQzXC9hdmF0YXIucG5nIiwiYXV0aG9yaXRpZXMiOltdLCJmaXJzdE5hbWUiOiJDYW8gxJBpbmggU-G7uSIsInBhc3N3b3JkIjoiMTkxMTAxNDMiLCJwaG9uZU51bWJlciI6IjA5NzU1NDM5NzUiLCJjcmVhdGVkRGF0ZSI6bnVsbCwiY3JlYXRlZEJ5IjpudWxsLCJyb2xlQ29kZSI6IlNUVURFTlQiLCJodHRwU3RhdHVzIjoiT0siLCJtb2RpZmllZERhdGUiOm51bGwsImxpc3RSZXF1ZXN0IjpbXSwibW9kaWZpZWRCeSI6bnVsbCwiaWQiOiIxOTExMDE0MyIsImZ1bGxuYW1lIjoiQ2FvIMSQaW5oIFPhu7kgVuG7uSIsInVzZXJuYW1lIjoiMTkxMTAxNDMifX0.PXXWDVpAAqr1Ko0pOcd52Aaed2eXz6Aoljy2h8fVkvg', '19110143', 'STUDENT'),

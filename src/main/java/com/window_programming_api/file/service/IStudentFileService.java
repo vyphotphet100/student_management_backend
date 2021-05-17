@@ -14,4 +14,5 @@ public interface IStudentFileService extends IBaseFileService{
 	
 	StudentDTO printStudentList();
 	StudentDTO printResult(String studentId);
+	StudentDTO printTimetable(String studentId);
 }

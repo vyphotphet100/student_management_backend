@@ -40,6 +40,9 @@ public class SectionClassEntity {
 	@Temporal(TemporalType.TIME)
 	private Date endTime;
 	
+	@Column(name = "weekday")
+	private Integer weekday;
+	
 	@Column(name = "room")
 	private String room;
 	
@@ -190,4 +193,14 @@ public class SectionClassEntity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public Integer getWeekday() {
+		return weekday;
+	}
+
+	public void setWeekday(Integer weekday) {
+		this.weekday = weekday;
+	}
+	
+	
 }

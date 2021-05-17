@@ -5,20 +5,13 @@ import java.util.List;
 
 public class RoleDTO extends AbstractDTO{
 	
-	private Long id;
 	private String name;
 	private String code;
 	private List<String> studentIds = new ArrayList<String>();
 	private List<Long> lecturerIds = new ArrayList<Long>();
 	private List<String> educationTrainingUsernames = new ArrayList<String>();
 	
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+
 	public String getName() {
 		return name;
 	}

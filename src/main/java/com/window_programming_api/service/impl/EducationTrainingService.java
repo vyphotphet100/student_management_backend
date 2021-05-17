@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.window_programming_api.dto.EducationTrainingDTO;
 import com.window_programming_api.entity.EducationTrainingEntity;
+import com.window_programming_api.file.service.impl.EducationTrainingFileService;
 import com.window_programming_api.jwtutils.JwtUtil;
 import com.window_programming_api.repository.EducationTrainingRepository;
 import com.window_programming_api.service.IEducationTrainingService;
@@ -16,6 +17,9 @@ public class EducationTrainingService extends BaseService implements IEducationT
 
 	@Autowired
 	private EducationTrainingRepository educationTrainingRepo;
+	
+	@Autowired
+	private EducationTrainingFileService educationFileService;
 
 	@Override
 	public EducationTrainingDTO findAll() {
@@ -72,7 +76,7 @@ public class EducationTrainingService extends BaseService implements IEducationT
 		if (educationTrainingRepo.findOne(educationTrainingDto.getUsername()) == null) {
 			String token = JwtUtil.generateToken(educationTrainingDto);
 			educationTrainingDto.setTokenCode(token);
-			educationTrainingDto.setRoleCode("ADMIN");
+			//educationTrainingDto.setRoleCode("ADMIN");
 			EducationTrainingEntity educationTrainingEntity = educationTrainingRepo
 					.save(converter.toEntity(educationTrainingDto, EducationTrainingEntity.class));
 			educationTrainingDto = converter.toDTO(educationTrainingEntity, EducationTrainingDTO.class);
@@ -89,9 +93,15 @@ public class EducationTrainingService extends BaseService implements IEducationT
 		// check if student exists already
 		if (educationTrainingRepo.findOne(username) != null) {
 			educationTrainingRepo.delete(username);
+			
+			//delete file 
+			educationFileService.deleteAll(username);
+			
 			educationTrainingDto.setMessage("Delete " + username + " successfully.");
 			return educationTrainingDto;
 		}
+		
+		
 
 		return (EducationTrainingDTO) this.ExceptionObject(educationTrainingDto, "This user does not exist.");
 	}

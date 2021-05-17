@@ -10,6 +10,7 @@ public class SectionClassDTO extends AbstractDTO{
 	private String name;
 	private Date startTime;
 	private Date endTime;
+	private Integer weekday;
 	private String room;
 	private Integer period;
 	private String description;
@@ -78,6 +79,12 @@ public class SectionClassDTO extends AbstractDTO{
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public Integer getWeekday() {
+		return weekday;
+	}
+	public void setWeekday(Integer weekday) {
+		this.weekday = weekday;
 	}
     
 }

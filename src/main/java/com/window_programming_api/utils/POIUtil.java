@@ -42,4 +42,25 @@ public class POIUtil {
 		
 		tableCell.removeParagraph(0);
 	}
+	
+	public static void splitBreakInCell(XWPFTableCell cell) {
+		if (cell.getText() != null && cell.getText().contains("\n")) {
+			for (XWPFParagraph p : cell.getParagraphs()) {
+				for (XWPFRun run : p.getRuns()) {// XWPFRun object defines a text area with a set of public properties
+					if (run.getText(0) != null && run.getText(0).contains("\n")) {
+						String[] lines = run.getText(0).split("\n");
+						if (lines.length > 0) {
+							run.setText(lines[0], 0); // set first line into XWPFRun
+							for (int i = 1; i < lines.length; i++) {
+								// add break and insert new text
+								run.addBreak();// interrupt
+								// run.addCarriageReturn();//carriage return, but does not work
+								run.setText(lines[i]);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
