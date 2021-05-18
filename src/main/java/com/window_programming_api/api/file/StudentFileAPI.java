@@ -7,7 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,17 +34,6 @@ public class StudentFileAPI {
 		return new ResponseEntity<StudentDTO>(studentDto, studentDto.getHttpStatus());
 	}
 
-	@GetMapping("/api/file/student/{studentId}")
-	public ResponseEntity<StudentDTO> printTimetable(@RequestParam(value = "option", required = false) String option,
-			@PathVariable("studentId") String studentId) {
-		StudentDTO studentDto = new StudentDTO();
-		if (option.equals("printTimetable")) {
-			studentDto = studentFileService.printTimetable(studentId);
-		}
-
-		return new ResponseEntity<StudentDTO>(studentDto, studentDto.getHttpStatus());
-	}
-
 	@GetMapping("/api/file/student/**")
 	public ResponseEntity<Object> getFile(HttpServletRequest request,
 			@RequestParam(value = "option", required = false) String option) {
@@ -60,6 +48,9 @@ public class StudentFileAPI {
 		} else if (option.equals("printResult")) {
 			String studentId = request.getRequestURI().split("/api/file/student/")[1];
 			studentDto = studentFileService.printResult(studentId);
+		} else if (option.equals("printTimetable")) {
+			String studentId = request.getRequestURI().split("/api/file/student/")[1];
+			studentDto = studentFileService.printTimetable(studentId);
 		}
 
 		return new ResponseEntity<Object>(studentDto, studentDto.getHttpStatus());

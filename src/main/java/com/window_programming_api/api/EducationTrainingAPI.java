@@ -34,7 +34,7 @@ public class EducationTrainingAPI {
 		return new ResponseEntity<EducationTrainingDTO>(educationTrainingDto, educationTrainingDto.getHttpStatus());
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	//@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@PostMapping("/api/education_training")
 	public ResponseEntity<EducationTrainingDTO> postEducationTraining(@RequestBody EducationTrainingDTO educationTrainingDto) {
 		educationTrainingDto = educationTrainingService.save(educationTrainingDto);
