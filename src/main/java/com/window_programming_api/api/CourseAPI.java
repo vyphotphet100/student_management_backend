@@ -29,7 +29,7 @@ public class CourseAPI {
 	
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@GetMapping("/api/course/{courseId}")
-	private ResponseEntity<CourseDTO> getCourseById(@PathVariable("courseId") String courseId) {
+	public ResponseEntity<CourseDTO> getCourseById(@PathVariable("courseId") String courseId) {
 		CourseDTO courseDto = courseService.findOne(courseId);
 		return new ResponseEntity<CourseDTO>(courseDto, courseDto.getHttpStatus());
 	}

@@ -22,6 +22,7 @@ public class LecturerDTO extends AbstractDTO implements UserDetails{
     private String roleCode;
     private Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
 	private String tokenCode;
+	private String picture;
 	
     
 	public Long getId() {
@@ -91,7 +92,14 @@ public class LecturerDTO extends AbstractDTO implements UserDetails{
 	public void setTokenCode(String tokenCode) {
 		this.tokenCode = tokenCode;
 	}
+	
 
+	public String getPicture() {
+		return picture;
+	}
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub

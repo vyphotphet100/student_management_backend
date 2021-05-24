@@ -43,6 +43,9 @@ public class LecturerEntity extends BaseEntity {
 	@Column(name = "token_code", columnDefinition = "TEXT")
 	private String tokenCode;
 	
+	@Column(name = "picture")
+	private String picture;
+	
 	@ManyToOne 
     @JoinColumn(name = "role_code")
     private RoleEntity role;
@@ -117,6 +120,14 @@ public class LecturerEntity extends BaseEntity {
 
 	public void setRole(RoleEntity role) {
 		this.role = role;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 	
 	

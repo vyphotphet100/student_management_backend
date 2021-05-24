@@ -78,10 +78,4 @@ public class CourseService extends BaseService implements ICourseService{
 		return (CourseDTO) this.ExceptionObject(courseDto, "This course id does not exist.");
 	}
 
-	@Override
-	public void delete(List<Object> courseDto) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

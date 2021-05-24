@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.window_programming_api.dto.LecturerDTO;
 import com.window_programming_api.entity.LecturerEntity;
+import com.window_programming_api.file.service.ILecturerFileService;
 import com.window_programming_api.jwtutils.JwtUtil;
 import com.window_programming_api.repository.LecturerRepository;
 import com.window_programming_api.service.ILecturerService;
@@ -16,6 +17,9 @@ public class LecturerService extends BaseService implements ILecturerService {
 
 	@Autowired
 	private LecturerRepository lecturerRepo;
+	
+	@Autowired 
+	private ILecturerFileService lecturerFileService;
 
 	@Override
 	public LecturerDTO findAll() {
@@ -106,6 +110,10 @@ public class LecturerService extends BaseService implements ILecturerService {
 
 		if (lecturerRepo.findOne(id) != null) {
 			lecturerRepo.delete(id);
+
+			// delete all file of student
+			lecturerFileService.deleteAll(id);
+
 			lecturerDto.setMessage("Delete lecturer successfully.");
 			return lecturerDto;
 		}
